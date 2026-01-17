@@ -1,966 +1,799 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spaced Repetition Vocabulary Tracker</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DABY Blockchain Method - Futuristic Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for a cleaner look */
+        :root {
+            --bg-deep: #050510;
+            --bg-surface: #0a0a1f;
+            --accent-primary: #7a00ff;
+            --accent-secondary: #00eaff;
+            --accent-glow: rgba(0, 234, 255, 0.4);
+            --text-main: #e6e6ff;
+            --text-dim: #b8eaff;
+            --border-glow: rgba(122, 0, 255, 0.3);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Deep dark background (slate-900) */
+            margin: 0;
+            padding: 0;
+            font-family: "Inter", sans-serif;
+            background: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 50% 0%, #1a0033 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, #050510 0%, transparent 40%);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
         }
-        .loading-ring {
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            border-top: 4px solid #06b6d4; /* Tailwind cyan-500 */
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("https://www.transparenttextures.com/patterns/stardust.png");
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 60px auto;
+            position: relative;
+            z-index: 1;
         }
-        .table-header {
-            background-color: #1e293b; /* slate-800 */
-            color: #94a3b8; /* slate-400 */
-            padding: 0.75rem;
-            text-align: left;
-            font-weight: bold;
-            border-bottom: 2px solid #06b6d4; /* cyan-500 separator */
+
+        .header-group {
+            text-align: center;
+            margin-bottom: 50px;
         }
-        /* Custom styles for the flashcard */
-        .flashcard {
-            min-height: 200px;
+
+        .header-title {
+            font-size: clamp(32px, 8vw, 64px);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #9c4dff, #4df2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            filter: drop-shadow(0 0 10px rgba(156, 77, 255, 0.3));
+        }
+
+        .header-sub {
+            font-size: clamp(14px, 2.5vw, 18px);
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: var(--accent-secondary);
+            opacity: 0.8;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .welcome-box {
+            background: rgba(10, 10, 31, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px var(--border-glow);
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .welcome-text {
+            color: var(--text-dim);
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tabs-container {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            margin-bottom: 40px;
+        }
+
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding: 10px;
+            scrollbar-width: none;
+            justify-content: flex-start;
+            background: rgba(5, 5, 16, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab {
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            white-space: nowrap;
+            color: var(--text-dim);
+            transition: all var(--transition-speed);
+            border: 1px solid transparent;
+        }
+
+        .tab:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+        .tab.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .card-section {
+            display: none;
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .card-section.active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-item {
+            background: var(--bg-surface);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-item.centered {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: all 0.3s ease-in-out;
+            min-height: 250px;
+            gap: 20px;
         }
-        .flashcard-back {
-            background-color: #334155; /* slate-700 */
-            min-height: 150px;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+
+        .gradient-expression {
+            font-size: clamp(40px, 10vw, 80px);
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary), var(--accent-secondary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            animation: shine 3s linear infinite;
+            text-align: center;
+        }
+
+        .playback-btn {
+            background: rgba(0, 234, 255, 0.1);
+            border: 1px solid var(--accent-secondary);
+            color: var(--accent-secondary);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .playback-btn:hover:not(:disabled) {
+            background: var(--accent-secondary);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .playback-btn:disabled { opacity: 0.5; cursor: wait; }
+
+        .playback-btn svg { width: 20px; height: 20px; }
+
+        @keyframes pulse-audio {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .playing-icon { animation: pulse-audio 1s infinite ease-in-out; }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .scenario-box {
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border-left: 6px solid;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .box-logic { border-color: var(--accent-secondary); background: rgba(0, 234, 255, 0.03); }
+        .box-corporate { border-color: #ff007a; background: rgba(255, 0, 122, 0.03); }
+        .box-leadership { border-color: #00ff7a; background: rgba(0, 255, 122, 0.03); }
+
+        .scenario-header-text {
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .code-block {
+            background: #000;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .variant-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .variant-entry {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .variant-entry:last-child { border-bottom: none; }
+
+        .token-text {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-secondary);
+            font-weight: 600;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .context-list { list-style: none; padding: 0; margin: 0; }
+        .context-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .context-bullet {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-secondary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-secondary);
+            flex-shrink: 0;
+        }
+        .context-highlight { color: var(--accent-secondary); font-weight: 700; }
+
+        .instruction-label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .input-area {
+            width: 100%;
+            background: #000;
+            border: 2px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 20px;
+            color: #fff;
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: 40px;
+        }
+
+        .input-area:focus { border-color: var(--accent-secondary); }
+
+        .drag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            min-height: 60px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .node {
+            background: linear-gradient(135deg, var(--bg-surface), #151535);
+            border: 1px solid var(--border-glow);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: grab;
+            user-select: none;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .node:active { cursor: grabbing; transform: scale(1.05); }
+
+        .drop-zone {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            min-height: 80px;
+            padding: 10px;
+            background: rgba(122, 0, 255, 0.05);
+            border-radius: 16px;
+            border: 2px solid var(--border-glow);
+        }
+
+        .feedback-message {
+            text-align: center;
+            font-weight: 800;
+            margin-top: 20px;
+            height: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Drill Specific Styles */
+        .drill-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .transmission-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .dialogue-pair {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .speaker-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-primary);
+            font-weight: 800;
+        }
+
+        .question-text {
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .answer-text {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            filter: drop-shadow(0 0 5px var(--accent-glow));
+        }
+
+        .drill-footer {
+            margin-top: 10px;
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 13px;
+            color: #666;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .status-msg {
+            font-size: 11px;
+            margin-top: 10px;
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-secondary);
+            height: 14px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .container { margin: 30px auto; width: 92%; }
+            .tab { padding: 10px 18px; font-size: 13px; }
         }
     </style>
-    <!-- Load Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, serverTimestamp, setLogLevel, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global Firebase variables
-        let app, db, auth, userId;
-        let isAuthReady = false;
-        let unsubscribeVocabularyListener;
-        let userName = "User"; 
-
-        // Global data store and context display state
-        let currentVocabulary = []; 
-        let currentContextId = null; 
-        let currentCategoryFilter = 'All'; 
-        let currentLevelFilter = 'All'; 
-
-        // --- GAME MODE STATE ---
-        let challengeQueue = []; 
-        let currentCardIndex = -1; 
-        let isCardFlipped = false; 
-
-
-        // --- GLOBAL ENVIRONMENT VARIABLES (FIREBASE CONFIGURATION) ---
-        // THESE VALUES ARE FROM YOUR FIREBASE CONSOLE
-        const appId = "srs-vocabulario"; 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAirkDd3A1_2iPE_0h_ud9MlfL0O8TAnQU",
-            authDomain: "srs-vocabulario.firebaseapp.com",
-            projectId: "srs-vocabulario",
-            storageBucket: "srs-vocabulario.firebasestorage.app",
-            messagingSenderId: "862583334765",
-            appId: "1:862583334765:web:9afae6821f6ce1094e9c64",
-            // measurementId: "G-9850DPVEJH" // Omitted as not needed for Firestore/Auth
-        };
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        // --- END GLOBAL ENVIRONMENT VARIABLES ---
-
-        setLogLevel('Debug'); // Enable Firebase debug logging
-
-        // --- SRS CONSTANTS ---
-        // Days to wait for next review based on level (simplified Fading Interval Schedule)
-        const INTERVALS_DAYS = [1, 3, 7, 14, 30, 90, 180, 365]; 
-        const MAX_LEVEL = INTERVALS_DAYS.length;
-
-        // --- FIREBASE INITIALIZATION AND AUTHENTICATION ---
-        async function setupFirebase() {
-            try {
-                
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                // Handle authentication
-                if (initialAuthToken) {
-                    try {
-                        // Tries to use the Canvas custom token (if present)
-                        await signInWithCustomToken(auth, initialAuthToken);
-                    } catch (e) {
-                        // FIX: Fallback to anonymous login if custom token fails
-                        console.warn("Custom token sign-in failed, falling back to anonymous login.", e);
-                        await signInAnonymously(auth);
-                    }
-                } else {
-                    // Uses anonymous login if no custom token is available
-                    await signInAnonymously(auth);
-                }
-
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        isAuthReady = true;
-                        
-                        await loadUserName(userId); // Load name before showing content
-
-                        // Start listening to the personal vocabulary collection
-                        listenToVocabulary();
-                    } else {
-                        // Fallback (though Firestore security rules might prevent access)
-                        userId = crypto.randomUUID();
-                        document.getElementById('welcome-message').textContent = `Welcome, ${userName}!`;
-                    }
-                    
-                    document.getElementById('loading-state').classList.add('hidden');
-                    document.getElementById('main-content').classList.remove('hidden');
-                });
-
-            } catch (error) {
-                console.error("Firebase setup failed:", error);
-                document.getElementById('loading-state').innerHTML = `
-                    <p class="text-red-400">Error setting up Firebase: ${error.message}. Check console for details.</p>
-                `;
-            }
-        }
-
-        // --- FIRESTORE UTILITIES ---
-        function getVocabularyCollectionRef() {
-            if (!db || !userId) throw new Error("Firestore or User ID not ready.");
-            return collection(db, `artifacts/${appId}/users/${userId}/vocabulary`);
-        }
-        
-        function getUserProfileRef(uid) {
-            if (!db || !uid) throw new Error("Firestore or User ID not ready.");
-            return doc(db, `artifacts/${appId}/users/${uid}/profile/details`);
-        }
-
-        async function loadUserName(uid) {
-            try {
-                const docSnap = await getDoc(getUserProfileRef(uid));
-                if (docSnap.exists() && docSnap.data().name) {
-                    userName = docSnap.data().name;
-                } else {
-                    userName = "User";
-                }
-                document.getElementById('welcome-message').textContent = `Welcome, ${userName}!`;
-                document.getElementById('name-input').value = userName === "User" ? "" : userName;
-
-            } catch (error) {
-                console.error("Error loading user name:", error);
-                userName = "User (Error)";
-            }
-        }
-        
-        async function saveUserName(name) {
-            if (!isAuthReady || !name.trim()) {
-                showNotification("Please enter a valid name.", 'error');
-                return;
-            }
-            const cleanName = name.trim();
-            try {
-                await setDoc(getUserProfileRef(userId), { name: cleanName }, { merge: true });
-                userName = cleanName;
-                document.getElementById('welcome-message').textContent = `Welcome, ${cleanName}!`;
-                showNotification(`Name saved as '${cleanName}'.`, 'info');
-            } catch (error) {
-                console.error("Error saving user name:", error);
-                showNotification("Failed to save name.", 'error');
-            }
-        }
-
-        // Utility to calculate the next review date based on the new level
-        function getNextReviewDate(level) {
-            // Level is 1-indexed (Level 1 corresponds to INTERVALS_DAYS[0])
-            const days = INTERVALS_DAYS[level - 1] || INTERVALS_DAYS[MAX_LEVEL - 1];
-            const date = new Date();
-            date.setDate(date.getDate() + days);
-            return date; 
-        }
-
-        // --- CRUD OPERATIONS ---
-
-        async function addVocabularyItem(word, context, category, type) {
-            // Note: category is now mandatory (General/Business)
-            if (!isAuthReady || !word.trim() || !context.trim() || !category.trim()) {
-                showNotification("Please enter the word, context, and select a category.", 'error');
-                return;
-            }
-
-            const cleanWord = word.trim();
-            const cleanContext = context.trim();
-            const cleanCategory = category.trim(); 
-            const cleanType = type.trim(); 
-            const initialLevel = 1;
-            const nextReview = getNextReviewDate(initialLevel); 
-
-            const newItem = {
-                word: cleanWord,
-                context: cleanContext,
-                category: cleanCategory, 
-                type: cleanType,
-                // Store next review date as a string for display and sorting (YYYY-MM-DD)
-                nextReviewDate: nextReview.toISOString().split('T')[0], 
-                level: initialLevel,
-                createdAt: serverTimestamp(),
-            };
-
-            try {
-                // Use the word as the document ID for uniqueness and easy lookup
-                await setDoc(doc(getVocabularyCollectionRef(), cleanWord.toLowerCase()), newItem);
-                document.getElementById('word-input').value = '';
-                document.getElementById('context-input').value = ''; 
-                document.getElementById('category-input').value = 'General'; // Reset category dropdown
-                document.getElementById('type-input').value = 'Word'; // Reset type dropdown
-                showNotification(`'${cleanWord}' added! Starting spaced repetition.`, 'info');
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                showNotification("Failed to add vocabulary item.", 'error');
-            }
-        }
-
-        // Function for quick level up from the table view
-        async function challengeMemory(wordId, currentLevel) {
-            if (!isAuthReady) return;
-
-            // When challenging from the table, we assume a correct recall and advance one level.
-            const newLevel = Math.min(currentLevel + 1, MAX_LEVEL);
-            const nextReview = getNextReviewDate(newLevel);
-
-            try {
-                const itemRef = doc(db, getVocabularyCollectionRef().path, wordId);
-                await setDoc(itemRef, {
-                    level: newLevel,
-                    nextReviewDate: nextReview.toISOString().split('T')[0],
-                    updatedAt: serverTimestamp(),
-                }, { merge: true });
-                showNotification(`Quick progress update for '${wordId}'. New level: ${newLevel}.`, 'info');
-                
-                // If the context was visible, hide it after successful challenge
-                if (currentContextId === wordId) {
-                    currentContextId = null;
-                }
-
-            } catch (error) {
-                console.error("Error updating document: ", error);
-                showNotification("Failed to update memory challenge.", 'error');
-            }
-        }
-
-        async function deleteVocabularyItem(wordId) {
-            if (!isAuthReady) return;
-
-            try {
-                const itemRef = doc(db, getVocabularyCollectionRef().path, wordId);
-                await deleteDoc(itemRef);
-                showNotification(`'${wordId}' deleted.`, 'error');
-            } catch (error) {
-                console.error("Error deleting document: ", error);
-                showNotification("Failed to delete vocabulary item.", 'error');
-            }
-        }
-
-        // --- EXPORT FUNCTIONALITY (REMAINS THE SAME) ---
-        function exportToCSV() {
-            if (currentVocabulary.length === 0) {
-                showNotification("No words to export.", 'error');
-                return;
-            }
-            // Added 'Type' to headers
-            const headers = ['Word', 'Type', 'Category', 'Context', 'Next Review', 'Level']; 
-            const csvRows = currentVocabulary.map(item => [
-                `"${item.word.replace(/"/g, '""')}"`, 
-                `"${(item.type || 'Word').replace(/"/g, '""')}"`, // Include type
-                `"${(item.category || 'General').replace(/"/g, '""')}"`, // Include category
-                `"${item.context.replace(/"/g, '""')}"`, 
-                item.nextReviewDate,
-                item.level
-            ].join(';')); 
-            const csvContent = [headers.join(';'), ...csvRows].join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `srs_vocabulary_export_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showNotification(`Exported ${currentVocabulary.length} words to CSV.`, 'info');
-        }
-
-
-        // --- REAL-TIME DATA LISTENER & RENDERING ---
-
-        function listenToVocabulary() {
-            if (unsubscribeVocabularyListener) {
-                unsubscribeVocabularyListener(); // Stop previous listener if it exists
-            }
-
-            const vocabQuery = query(getVocabularyCollectionRef()); 
-
-            unsubscribeVocabularyListener = onSnapshot(vocabQuery, (querySnapshot) => {
-                const vocabulary = [];
-                querySnapshot.forEach((doc) => {
-                    vocabulary.push({ id: doc.id, ...doc.data() });
-                });
-
-                currentVocabulary = vocabulary;
-
-                // Sort vocabulary: prioritize items that need review (past or today) first, then by level (lower level first)
-                currentVocabulary.sort((a, b) => {
-                    const today = new Date().toISOString().split('T')[0];
-                    const aDue = a.nextReviewDate <= today;
-                    const bDue = b.nextReviewDate <= today;
-
-                    if (aDue !== bDue) {
-                        return aDue ? -1 : 1; // Due comes first
-                    }
-                    return a.level - b.level; // Lower level comes first
-                });
-
-                // Always re-render with the current filters applied
-                renderVocabulary(currentVocabulary);
-            }, (error) => {
-                console.error("Error listening to vocabulary:", error);
-                showNotification("Failed to load real-time vocabulary list.", 'error');
-            });
-        }
-        
-        function setCategoryFilter(filter) {
-            currentCategoryFilter = filter;
-            renderVocabulary(currentVocabulary); // Rerender the table with the new filter
-        }
-        
-        function setLevelFilter(filter) {
-            currentLevelFilter = filter;
-            renderVocabulary(currentVocabulary); // Rerender the table with the new filter
-        }
-
-        function toggleContext(wordId) {
-            // If the same word is clicked, hide it. Otherwise, show it.
-            currentContextId = (currentContextId === wordId) ? null : wordId;
-            renderVocabulary(currentVocabulary); // Re-render to apply the change
-        }
-        
-        // Helper function to determine if a word matches the current Level filter
-        function matchesLevelFilter(level) {
-            switch (currentLevelFilter) {
-                case 'All':
-                    return true;
-                case 'Hard':
-                    return level === 1;
-                case 'Medium':
-                    return level >= 2 && level <= 4;
-                case 'Easy':
-                    return level >= 5;
-                default:
-                    return true;
-            }
-        }
-
-
-        function renderVocabulary(vocabulary) {
-            const tableBody = document.getElementById('vocab-table-body');
-            if (!tableBody) return;
-            
-            // --- FILTERING LOGIC ---
-            let filteredVocabulary = vocabulary;
-            
-            // 1. Apply Category Filter
-            if (currentCategoryFilter !== 'All') {
-                filteredVocabulary = filteredVocabulary.filter(item => (item.category || 'General') === currentCategoryFilter);
-            }
-            
-            // 2. Apply Level Filter (NEW)
-            if (currentLevelFilter !== 'All') {
-                filteredVocabulary = filteredVocabulary.filter(item => matchesLevelFilter(item.level));
-            }
-
-
-            // Highlight the active CATEGORY filter button
-            document.querySelectorAll('.filter-tab-category').forEach(btn => {
-                if (btn.dataset.filter === currentCategoryFilter) {
-                    btn.classList.remove('bg-gray-700', 'text-gray-300', 'hover:bg-gray-600');
-                    btn.classList.add('bg-cyan-500', 'text-white', 'shadow-lg');
-                } else {
-                    btn.classList.remove('bg-cyan-500', 'text-white', 'shadow-lg');
-                    btn.classList.add('bg-slate-700', 'text-slate-300', 'hover:bg-slate-600');
-                }
-            });
-            
-            // Highlight the active LEVEL filter button (NEW)
-            document.querySelectorAll('.filter-tab-level').forEach(btn => {
-                if (btn.dataset.filter === currentLevelFilter) {
-                    btn.classList.remove('bg-gray-700', 'text-gray-300', 'hover:bg-gray-600');
-                    btn.classList.add('bg-indigo-500', 'text-white', 'shadow-lg');
-                } else {
-                    btn.classList.remove('bg-cyan-500', 'text-white', 'shadow-lg');
-                    btn.classList.add('bg-slate-700', 'text-slate-300', 'hover:bg-slate-600');
-                }
-            });
-
-
-            tableBody.innerHTML = ''; // Clear the current list
-            const totalDue = filteredVocabulary.filter(item => new Date(item.nextReviewDate) <= new Date()).length;
-            
-            // Update the display count based on the combined filter
-            document.getElementById('total-entries').textContent = `Showing: ${filteredVocabulary.length} entries (${totalDue} due)`;
-
-
-            if (filteredVocabulary.length === 0) {
-                // Determine the filter text for the empty message
-                let filterText = '';
-                if (currentCategoryFilter !== 'All' && currentLevelFilter !== 'All') {
-                    filterText = `in the '${currentCategoryFilter}' category and '${currentLevelFilter}' level`;
-                } else if (currentCategoryFilter !== 'All') {
-                    filterText = `in the '${currentCategoryFilter}' category`;
-                } else if (currentLevelFilter !== 'All') {
-                    filterText = `at the '${currentLevelFilter}' level`;
-                }
-                
-                tableBody.innerHTML = `
-                    <tr><td colspan="7" class="p-6 text-center text-slate-500 bg-slate-800 rounded-b-xl">No words found ${filterText}.</td></tr>
-                `;
-                return;
-            }
-
-            filteredVocabulary.forEach(item => {
-                const isDue = new Date(item.nextReviewDate) <= new Date();
-                const rowClass = isDue ? 'bg-red-900/40 hover:bg-red-900/60 border-red-500/50' : 'bg-slate-800 hover:bg-slate-700 border-slate-700';
-
-                // Determine level badge style
-                let levelBadgeColor = 'bg-gray-500';
-                let levelTextColor = 'text-white';
-                let levelLabel = `Lvl ${item.level}`;
-
-                if (item.level === 1) { // Hard
-                    levelBadgeColor = 'bg-red-600';
-                    levelTextColor = 'text-white';
-                } else if (item.level >= 2 && item.level <= 4) { // Medium
-                    levelBadgeColor = 'bg-yellow-500';
-                    levelTextColor = 'text-gray-900';
-                } else if (item.level >= 5) { // Easy
-                    levelBadgeColor = 'bg-cyan-600';
-                    levelTextColor = 'text-white';
-                }
-
-
-                // 1. Create the main vocabulary row
-                const row = document.createElement('tr');
-                row.className = `border-b ${rowClass} transition duration-150`;
-                row.innerHTML = `
-                    <td class="p-3 text-white font-medium">${item.word}</td>
-                    <td class="p-3 text-cyan-400 font-semibold text-xs">${item.type || 'Word'}</td> <!-- Type Column -->
-                    <td class="p-3 text-slate-400">${item.category || 'General'}</td> <!-- Category Column -->
-                    <td class="p-3 ${isDue ? 'text-red-400 font-bold' : 'text-slate-300'}">${item.nextReviewDate}</td>
-                    <td class="p-3 text-center">
-                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full ${levelBadgeColor} ${levelTextColor}">
-                            ${levelLabel}
-                        </span>
-                    </td>
-                    <td class="p-3 space-y-2">
-                        <button onclick="window.challengeHandler('${item.id}', ${item.level})"
-                                class="w-full px-3 py-1 text-sm bg-indigo-500 text-white rounded-lg shadow-md hover:bg-indigo-600 transition duration-150 flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            Quick Advance
-                        </button>
-                        <button onclick="window.toggleContextHandler('${item.id}')"
-                                class="w-full px-3 py-1 text-sm bg-slate-600 text-white rounded-lg shadow-md hover:bg-slate-500 transition duration-150 flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            ${currentContextId === item.id ? 'Hide Context' : 'Show Context'}
-                        </button>
-                    </td>
-                    <td class="p-3 text-center">
-                        <button onclick="window.deleteHandler('${item.id}')"
-                                class="text-red-500 hover:text-red-400 p-2 rounded-full bg-slate-700 hover:bg-slate-600 transition duration-150">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-                
-                // 2. Conditionally add the context detail row (colspan must be 7 now)
-                if (item.id === currentContextId) {
-                    const contextRow = document.createElement('tr');
-                    contextRow.className = 'bg-slate-900/70 border-b border-slate-700';
-                    contextRow.innerHTML = `
-                        <td colspan="7" class="p-4">
-                            <div class="flashcard-back">
-                                <p class="text-xs font-bold text-slate-300 mb-1 uppercase">Context / Example Sentence:</p>
-                                <p class="text-base text-white italic p-2 border-l-4 border-cyan-400 pl-3">${item.context}</p>
-                            </div>
-                        </td>
-                    `;
-                    tableBody.appendChild(contextRow);
-                }
-            });
-        }
-        
-        // --- GAME MODE LOGIC ---
-        
-        function startGame() {
-            // The challenge queue should honor BOTH category and level filters.
-            const today = new Date().toISOString().split('T')[0];
-            
-            let filteredWords = currentVocabulary;
-            
-            // 1. Apply Category Filter
-            if (currentCategoryFilter !== 'All') {
-                filteredWords = filteredWords.filter(item => (item.category || 'General') === currentCategoryFilter);
-            }
-            
-            // 2. Apply Level Filter
-            if (currentLevelFilter !== 'All') {
-                filteredWords = filteredWords.filter(item => matchesLevelFilter(item.level));
-            }
-
-            // 3. Filter for due words only from the currently filtered list
-            const dueWords = filteredWords.filter(item => item.nextReviewDate <= today);
-
-            if (dueWords.length === 0) {
-                let filterText = '';
-                if (currentCategoryFilter !== 'All' && currentLevelFilter !== 'All') {
-                    filterText = `in the '${currentCategoryFilter}' category and '${currentLevelFilter}' level`;
-                } else if (currentCategoryFilter !== 'All') {
-                    filterText = `in the '${currentCategoryFilter}' category`;
-                } else if (currentLevelFilter !== 'All') {
-                    filterText = `at the '${currentLevelFilter}' level`;
-                }
-
-                showNotification(`No words due for review ${filterText} today!`, 'info');
-                return;
-            }
-
-            // 4. Set the challenge queue (shuffled)
-            challengeQueue = dueWords.sort(() => Math.random() - 0.5); 
-            currentCardIndex = 0;
-            isCardFlipped = false;
-            
-            // 5. Change view
-            document.getElementById('table-view-container').classList.add('hidden');
-            document.getElementById('challenge-game-container').classList.remove('hidden');
-            document.getElementById('end-game-message').classList.add('hidden');
-            document.getElementById('top-game-button').classList.add('hidden');
-            
-            showNextCard();
-        }
-
-        function showNextCard() {
-            if (currentCardIndex >= challengeQueue.length) {
-                // End of game
-                document.getElementById('challenge-word').textContent = "Session Complete!";
-                document.getElementById('challenge-context').textContent = "All due words have been reviewed. Congratulations!";
-                document.getElementById('card-context-area').classList.remove('hidden'); 
-                document.getElementById('challenge-buttons-flip').classList.add('hidden');
-                document.getElementById('challenge-buttons-feedback').classList.add('hidden');
-                document.getElementById('challenge-progress').classList.add('hidden');
-                document.getElementById('end-game-message').classList.remove('hidden');
-                showNotification("Review session complete!", 'info');
-                return;
-            }
-
-            const card = challengeQueue[currentCardIndex];
-            
-            // Update progress: show Type in the progress bar
-            document.getElementById('challenge-progress').textContent = `Card ${currentCardIndex + 1} of ${challengeQueue.length} (${card.type || 'Word'} | ${card.category || 'General'} | Level ${card.level})`;
-            document.getElementById('challenge-word').textContent = card.word;
-            document.getElementById('challenge-context').textContent = card.context;
-            
-            // Reset card state
-            isCardFlipped = false;
-            document.getElementById('card-context-area').classList.add('hidden');
-            document.getElementById('challenge-buttons-flip').classList.remove('hidden');
-            document.getElementById('challenge-buttons-feedback').classList.add('hidden');
-            document.getElementById('challenge-progress').classList.remove('hidden');
-        }
-        
-        function flipCard() {
-            isCardFlipped = true;
-            document.getElementById('card-context-area').classList.remove('hidden');
-            document.getElementById('challenge-buttons-flip').classList.add('hidden');
-            document.getElementById('challenge-buttons-feedback').classList.remove('hidden');
-        }
-        
-        // Logic to process feedback (Easy/Good/Hard)
-        async function processAnswer(difficulty) {
-            const currentCard = challengeQueue[currentCardIndex];
-            if (!currentCard) return;
-
-            let newLevel = currentCard.level;
-            
-            // 1. Determine the new level based on feedback
-            if (difficulty === 'easy') {
-                // Easy: Advance 2 levels, or cap at MAX_LEVEL
-                newLevel = Math.min(currentCard.level + 2, MAX_LEVEL); 
-                showNotification(`'${currentCard.word}' marked as EASY! New Level ${newLevel}.`, 'info');
-            } else if (difficulty === 'good') {
-                 // Good: Advance 1 level, or cap at MAX_LEVEL
-                newLevel = Math.min(currentCard.level + 1, MAX_LEVEL); 
-                showNotification(`'${currentCard.word}' marked as GOOD. New Level ${newLevel}.`, 'info');
-            } else { // Hard
-                // Hard: Reset to Level 1
-                newLevel = 1; 
-                showNotification(`'${currentCard.word}' marked as HARD! Restarting Level 1.`, 'error');
-            }
-            
-            // 2. Calculate next review date
-            const nextReview = getNextReviewDate(newLevel);
-            
-            try {
-                const itemRef = doc(db, getVocabularyCollectionRef().path, currentCard.id);
-                await setDoc(itemRef, {
-                    level: newLevel,
-                    nextReviewDate: nextReview.toISOString().split('T')[0],
-                    updatedAt: serverTimestamp(),
-                }, { merge: true });
-                
-                // 3. Move to the next card
-                currentCardIndex++;
-                showNextCard();
-
-            } catch (error) {
-                console.error("Error updating document in challenge mode: ", error);
-                showNotification("Failed to update memory challenge.", 'error');
-            }
-        }
-        
-        function exitGame() {
-            challengeQueue = [];
-            currentCardIndex = -1;
-            isCardFlipped = false;
-            
-            document.getElementById('table-view-container').classList.remove('hidden');
-            document.getElementById('challenge-game-container').classList.add('hidden');
-            document.getElementById('end-game-message').classList.add('hidden');
-            document.getElementById('top-game-button').classList.remove('hidden'); // Show button again
-            // Force re-render of the table to reflect updates
-            listenToVocabulary(); 
-        }
-
-        // --- MODAL AND NOTIFICATION HANDLING (REMAINS THE SAME) ---
-
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification-message');
-            const container = document.getElementById('notification-container');
-            if (!notification || !container) return;
-
-            notification.textContent = message;
-            container.className = `fixed bottom-4 right-4 p-4 rounded-lg shadow-xl text-white z-50 transition-transform transform ${type === 'error' ? 'bg-red-500' : 'bg-cyan-500'}`;
-            container.classList.remove('translate-x-full');
-            container.classList.add('translate-x-0');
-
-            setTimeout(() => {
-                container.classList.add('translate-x-full');
-                container.classList.remove('translate-x-0');
-            }, 3000);
-        }
-
-        // --- EXPOSE FUNCTIONS TO WINDOW SCOPE ---
-        window.addHandler = () => {
-            const wordInput = document.getElementById('word-input');
-            const contextInput = document.getElementById('context-input');
-            const categoryInput = document.getElementById('category-input');
-            const typeInput = document.getElementById('type-input');
-            addVocabularyItem(wordInput.value, contextInput.value, categoryInput.value, typeInput.value);
-        };
-        window.saveNameHandler = () => {
-            const nameInput = document.getElementById('name-input');
-            saveUserName(nameInput.value);
-        }
-        window.challengeHandler = challengeMemory; 
-        window.deleteHandler = deleteVocabularyItem;
-        window.toggleContextHandler = toggleContext;
-        window.exportHandler = exportToCSV;
-        // Game mode functions
-        window.startGameHandler = startGame;
-        window.flipCardHandler = flipCard;
-        window.processAnswerHandler = processAnswer;
-        window.exitGameHandler = exitGame;
-        window.setCategoryFilterHandler = setCategoryFilter; 
-        window.setLevelFilterHandler = setLevelFilter; 
-
-
-        // Start the application setup
-        window.onload = setupFirebase;
-
-    </script>
 </head>
-<body class="min-h-screen p-4 sm:p-8">
+<body>
 
-    <!-- Notification Area -->
-    <div id="notification-container" class="fixed bottom-4 right-4 p-4 rounded-lg shadow-xl text-white z-50 transition-transform transform translate-x-full duration-300">
-        <span id="notification-message"></span>
-    </div>
+<div class="container">
+    <header class="header-group">
+        <h1 class="header-title">DABY Method</h1>
+        <div class="header-sub">Blockchain-Logic Learning</div>
+    </header>
 
-    <div class="max-w-4xl mx-auto">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-cyan-400 mb-2">
-                SRS Vocabulary Master Plan
-            </h1>
-            <p id="welcome-message" class="text-xl text-slate-200 font-semibold mb-6">
-                Welcome, User!
-            </p>
-            
-            <!-- START REVIEW SESSION BUTTON (New, prominent location) -->
-            <button id="top-game-button" onclick="window.startGameHandler()"
-                    class="w-full max-w-sm mx-auto px-8 py-4 bg-cyan-500 text-white font-extrabold text-lg rounded-xl shadow-2xl shadow-cyan-500/50 hover:bg-cyan-400 focus:outline-none focus:ring-4 focus:ring-cyan-500 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:scale-[1.05] flex items-center justify-center mb-8">
-                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                START REVIEW SESSION
-            </button>
+    <section class="welcome-box">
+        <div class="welcome-title">Initialize Protocol</div>
+        <div class="welcome-text">
+            Welcome to a modular learning architecture. We break down complex linguistic and conceptual nodes into <strong>immutable blocks</strong>. Visual, ADHD-optimized, and built for retention.
+        </div>
+    </section>
 
-            <p class="text-sm text-red-400 mt-2">
-                This app uses your **Personal Firestore** storage to save data.
-            </p>
-        </header>
+    <nav class="tabs-container">
+        <div class="tabs" id="tabBar">
+            <div class="tab active" data-target="expression">Expression</div>
+            <div class="tab" data-target="guide">Guide</div>
+            <div class="tab" data-target="situations">Context</div>
+            <div class="tab" data-target="scenarios">Scenarios</div>
+            <div class="tab" data-target="alternatives">Variants</div>
+            <div class="tab" data-target="write">Compose</div>
+            <div class="tab" data-target="practice">Drills</div>
+        </div>
+    </nav>
 
-        <!-- Student Name Input and Save Button -->
-        <div class="p-4 bg-slate-800 rounded-xl shadow-2xl shadow-slate-900/50 mb-8 border border-slate-700">
-            <div class="flex flex-col sm:flex-row gap-3 items-center">
-                <div class="flex-grow w-full sm:w-auto">
-                    <label for="name-input" class="block text-xs font-medium text-slate-400 mb-1">Your Name (Saved in Profile)</label>
-                    <input type="text" id="name-input" placeholder="Enter your name here" 
-                           class="w-full p-3 rounded-lg border-2 border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition duration-150 ease-in-out shadow-inner">
-                </div>
-                <button onclick="window.saveNameHandler()"
-                        class="w-full sm:w-auto mt-4 sm:mt-0 px-6 py-3 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800 transition duration-150 ease-in-out transform hover:scale-[1.02]">
-                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Save Name
+    <!-- Expression -->
+    <div id="expression" class="card-section active">
+        <div class="section-header"><div class="card-title">Core Token</div></div>
+        <div class="card-grid">
+            <div class="card-item centered">
+                <div class="gradient-expression" id="mainPhrase">Loud and clear</div>
+                <button class="playback-btn" id="playAudioBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="playIcon">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <span id="btnLabel">Play Audio</span>
                 </button>
+                <div id="audioStatus" class="status-msg"></div>
             </div>
         </div>
+    </div>
 
-        <!-- Loading State -->
-        <div id="loading-state" class="flex flex-col items-center justify-center p-10 bg-slate-800 rounded-xl shadow-2xl text-white">
-            <div class="loading-ring mb-4"></div>
-            <p>Initializing application and signing in...</p>
+    <!-- Guide -->
+    <div id="guide" class="card-section">
+        <div class="section-header"><div class="card-title">Explicação Completa</div></div>
+        <div class="card-item" style="display: block;">
+            <div class="scenario-box box-logic">
+                <span class="scenario-header-text" style="color: var(--accent-secondary);">O que significa?</span>
+                <p>Equivalente a "Na escuta" ou "Entendido perfeitamente". Confirma que a conexão está estável e que você compreendeu cada palavra.</p>
+            </div>
+            <div class="scenario-box box-corporate">
+                <span class="scenario-header-text" style="color: #bc7eff;">Situação: Reuniões Online</span>
+                <p>Responda a mic-checks com autoridade. "I hear you loud and clear."</p>
+            </div>
         </div>
+    </div>
 
-        <!-- Main Content (Hidden until Firebase is ready) -->
-        <main id="main-content" class="hidden">
-            
-            <!-- 1. Add Vocabulary with Context -->
-            <h2 class="text-2xl font-semibold text-white mb-4 border-b border-slate-700 pb-2">1. Add New Entry</h2>
-            <div class="p-6 bg-slate-800 rounded-2xl shadow-2xl shadow-slate-900/50 mb-8 border border-slate-700">
+    <!-- Context -->
+    <div id="situations" class="card-section">
+        <div class="section-header"><div class="card-title">Environmental Context</div></div>
+        <div class="card-item" style="display: block;">
+            <ul class="context-list">
+                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Global Meetings:</span> Audio checks on Zoom/Teams.</div></li>
+                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Presentations:</span> Confirming questions from the audience.</div></li>
+                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Crisis Management:</span> Acknowledging urgent instructions.</div></li>
+                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Negotiations:</span> Acknowledging specific verbal clauses.</div></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scenarios -->
+    <div id="scenarios" class="card-section">
+        <div class="section-header"><div class="card-title">Operational Simulations</div></div>
+        <div class="card-item" style="display: block;">
+            <div class="scenario-box box-leadership">
+                <span class="scenario-header-text">Confidence Projection</span>
+                <p>Instead of a weak "yes", dominate the audio space: "Thanks Mark, loud and clear on my end."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Variants -->
+    <div id="alternatives" class="card-section">
+        <div class="section-header"><div class="card-title">Variant Tokens</div></div>
+        <div class="card-item" style="display: block;">
+            <div class="variant-list">
+                <div class="variant-entry">
+                    <span class="label-sm">Inquiry Protocol</span>
+                    <span class="token-text">"Am I coming through clearly?"</span>
+                </div>
+                <div class="variant-entry">
+                    <span class="label-sm">Standard</span>
+                    <span class="token-text">"You are coming through okay."</span>
+                </div>
+                <div class="variant-entry">
+                    <span class="label-sm">High-Fidelity</span>
+                    <span class="token-text">"Crystal clear."</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compose -->
+    <div id="write" class="card-section">
+        <div class="section-header"><div class="card-title">Logic Synthesis</div></div>
+        <div class="card-item" style="display: block;">
+            <label class="instruction-label">Manual Block Entry</label>
+            <input type="text" class="input-area" id="manualInput" placeholder="Enter expression..." autocomplete="off">
+
+            <label class="instruction-label">Blockchain Rebuild</label>
+            <div id="dropZone" class="drop-zone"></div>
+            <div id="dragContainer" class="drag-container">
+                <div class="node" draggable="true" data-word="Loud">Loud</div>
+                <div class="node" draggable="true" data-word="and">and</div>
+                <div class="node" draggable="true" data-word="clear">clear</div>
+            </div>
+            <div id="feedback" class="feedback-message"></div>
+        </div>
+    </div>
+
+    <!-- Drills -->
+    <div id="practice" class="card-section">
+        <div class="section-header"><div class="card-title">Fluency Drills</div></div>
+        <div class="card-item" style="display: block;">
+            <div class="drill-container">
+                <div class="transmission-box">
+                    <div class="dialogue-pair">
+                        <span class="speaker-label">Inbound Signal (Interrogative)</span>
+                        <div class="question-text">"Can you hear me?"</div>
+                    </div>
+                    
+                    <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 5px 0;"></div>
+
+                    <div class="dialogue-pair">
+                        <span class="speaker-label">Outbound Response (DABY Token)</span>
+                        <div class="answer-text">"Loud and clear."</div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <span class="label-sm" style="color: #fff">Execution Script:</span>
+                    1. Imagine a crackling radio signal.<br>
+                    2. Hear the question: "Can you hear me?"<br>
+                    3. Respond instantly: "Loud and clear."<br>
+                    4. Repeat 5 times to lock the neural pathway.
+                </div>
                 
-                <!-- Input Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <!-- Word Input -->
-                    <div>
-                        <label for="word-input" class="block text-sm font-medium text-slate-300 mb-1">Word/Phrase (Required)</label>
-                        <input type="text" id="word-input" placeholder="Ex: 'Ephemeral'" 
-                               class="w-full p-3 rounded-lg border-2 border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition duration-150 ease-in-out shadow-inner">
-                    </div>
-
-                    <!-- Context/Sentence Input -->
-                    <div>
-                        <label for="context-input" class="block text-sm font-medium text-slate-300 mb-1">Context / Definition (Required)</label>
-                        <input type="text" id="context-input" placeholder="Ex: 'Lasting for a very short time.'" 
-                               class="w-full p-3 rounded-lg border-2 border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition duration-150 ease-in-out shadow-inner">
-                    </div>
-                </div>
-
-                <!-- Type and Category Dropdowns -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                     <!-- Entry Type Dropdown -->
-                    <div>
-                        <label for="type-input" class="block text-sm font-medium text-slate-300 mb-1">Entry Type</label>
-                        <select id="type-input" 
-                                class="w-full p-3 rounded-lg border-2 border-slate-600 bg-slate-700 text-white focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition duration-150 ease-in-out shadow-inner">
-                            <option>Word</option>
-                            <option>Expression</option>
-                            <option>Sentence</option>
-                            <option>Phrase</option>
-                            <option>Phrasal Verb</option>
-                            <option>Pronunciation</option>
-                            <option>Grammar Structure</option>
-                        </select>
-                    </div>
-
-                    <!-- Category Dropdown -->
-                    <div>
-                        <label for="category-input" class="block text-sm font-medium text-slate-300 mb-1">Category (Required for Filtering)</label>
-                        <select id="category-input" 
-                                class="w-full p-3 rounded-lg border-2 border-slate-600 bg-slate-700 text-white focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition duration-150 ease-in-out shadow-inner">
-                            <option value="General">General</option>
-                            <option value="Business">Business</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button onclick="window.addHandler()"
-                        class="w-full px-6 py-3 bg-cyan-500 text-white font-semibold rounded-xl shadow-lg shadow-cyan-500/30 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-800 transition duration-150 ease-in-out transform hover:scale-[1.01]">
-                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Add Entry (Start Spaced Repetition)
-                </button>
-            </div>
-
-
-            <!-- 2. Challenge Mode (Flashcard Game) -->
-            <div id="challenge-game-container" class="hidden">
-                <h2 class="text-2xl font-semibold text-white mb-4 text-center border-b border-slate-700 pb-2">Review Challenge Mode</h2>
-                <div class="p-8 bg-slate-800 rounded-2xl shadow-2xl max-w-lg mx-auto mb-6 border border-slate-700">
-                    
-                    <p id="challenge-progress" class="text-sm text-slate-400 text-center mb-4"></p>
-
-                    <!-- Flashcard Area -->
-                    <div class="flashcard bg-slate-900 rounded-xl p-8 shadow-2xl shadow-cyan-500/20 border-2 border-cyan-500/50 hover:border-cyan-500">
-                        <svg class="w-8 h-8 text-cyan-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5 5.754 5 4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18s-3.332.477-4.5 1.253"></path></svg>
-                        <h3 id="challenge-word" class="text-4xl font-extrabold text-white text-center mb-4 transition duration-300"></h3>
-                        
-                        <!-- Context/Answer Area (Hidden by default) -->
-                        <div id="card-context-area" class="hidden w-full mt-6 p-4 bg-slate-700 rounded-lg border-l-4 border-cyan-400 shadow-md">
-                            <p class="text-xs font-bold text-cyan-400 mb-2 uppercase tracking-wider">Context / Answer:</p>
-                            <p id="challenge-context" class="text-base text-slate-200 italic"></p>
-                        </div>
-
-                        <!-- End Game Message -->
-                        <div id="end-game-message" class="hidden text-center mt-6">
-                            <p class="text-2xl font-semibold text-cyan-400">Review Session Complete!</p>
-                            <p class="text-slate-400 mt-2">Time to check your progress table.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Control Buttons -->
-                    <div class="mt-6 space-y-3">
-                        <!-- 1. Flip Button -->
-                        <div id="challenge-buttons-flip" class="flex justify-center">
-                            <button onclick="window.flipCardHandler()"
-                                    class="w-full px-6 py-3 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:bg-indigo-600 transition duration-150 transform hover:scale-[1.01]">
-                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                Reveal Context
-                            </button>
-                        </div>
-                        
-                        <!-- 2. Feedback Buttons (Shown after flip) -->
-                        <div id="challenge-buttons-feedback" class="grid grid-cols-3 gap-3 hidden">
-                            <button onclick="window.processAnswerHandler('hard')"
-                                    class="px-2 py-3 bg-red-600 text-white font-semibold text-sm rounded-xl shadow-lg hover:bg-red-700 transition duration-150 transform hover:scale-[1.02]">
-                                Hard (1 Day)
-                            </button>
-                            <button onclick="window.processAnswerHandler('good')"
-                                    class="px-2 py-3 bg-yellow-600 text-white font-semibold text-sm rounded-xl shadow-lg hover:bg-yellow-700 transition duration-150 transform hover:scale-[1.02]">
-                                Good (3 Days)
-                            </button>
-                            <button onclick="window.processAnswerHandler('easy')"
-                                    class="px-2 py-3 bg-cyan-600 text-white font-semibold text-sm rounded-xl shadow-lg hover:bg-cyan-700 transition duration-150 transform hover:scale-[1.02]">
-                                Easy (7 Days)
-                            </button>
-                        </div>
-                        
-                        <!-- Exit Button -->
-                        <button onclick="window.exitGameHandler()"
-                                class="w-full px-6 py-3 bg-slate-600 text-white font-semibold rounded-xl shadow-md hover:bg-slate-500 transition duration-150 mt-4">
-                            Exit Challenge
-                        </button>
-                    </div>
-
+                <div class="drill-footer">
+                    *Focus on the hard 'd' in Loud and the rhythmic bridge of 'and' to 'clear'.
                 </div>
             </div>
-
-
-            <!-- 3. Retention Tracking (Table View) -->
-            <div id="table-view-container">
-                <h2 class="text-2xl font-semibold text-white mb-4 border-b border-slate-700 pb-2">3. Retention Tracking (Table View)</h2>
-                <div class="p-6 bg-slate-800 rounded-2xl shadow-2xl shadow-slate-900/50 border border-slate-700">
-                    
-                    <!-- Filter Section -->
-                    <div class="mb-6">
-                        <!-- Category Filter Tabs (Pill Style) -->
-                        <p class="text-sm font-medium text-slate-400 mb-2">Filter by Category:</p>
-                        <div class="flex space-x-2 p-1 bg-slate-700 rounded-full mb-4">
-                            <button data-filter="All" onclick="window.setCategoryFilterHandler('All')" 
-                                    class="filter-tab-category flex-grow px-4 py-2 text-sm font-semibold rounded-full transition duration-150">
-                                All Entries
-                            </button>
-                            <button data-filter="General" onclick="window.setCategoryFilterHandler('General')"
-                                    class="filter-tab-category flex-grow px-4 py-2 text-sm font-semibold rounded-full transition duration-150">
-                                General
-                            </button>
-                            <button data-filter="Business" onclick="window.setCategoryFilterHandler('Business')"
-                                    class="filter-tab-category flex-grow px-4 py-2 text-sm font-semibold rounded-full transition duration-150">
-                                Business
-                            </button>
-                        </div>
-
-                        <!-- Level/Difficulty Filter Tabs (Pill Style) -->
-                        <p class="text-sm font-medium text-slate-400 mb-2">Filter by Mastery Level (SRS Level):</p>
-                        <div class="grid grid-cols-4 gap-2 p-1 bg-slate-700 rounded-full">
-                            <button data-filter="All" onclick="window.setLevelFilterHandler('All')" 
-                                    class="filter-tab-level flex-grow px-4 py-2 text-sm font-semibold rounded-full transition duration-150">
-                                All Levels
-                            </button>
-                            <button data-filter="Hard" onclick="window.setLevelFilterHandler('Hard')"
-                                    class="filter-tab-level flex-grow px-4 py-2 text-sm font-semibold rounded-full transition duration-150">
-                                Hard (Lvl 1)
-                            </button>
-                            <button data-filter="Medium" onclick="window.setLevelFilterHandler('Medium')"
-                                    class="filter-tab-level flex-grow px-4 py-2 text-sm font-semibold rounded-full transition duration-150">
-                                Medium (Lvl 2-4)
-                            </button>
-                            <button data-filter="Easy" onclick="window.setLevelFilterHandler('Easy')"
-                                    class="filter-tab-level flex-grow px-4 py-2 text-sm font-semibold rounded-full transition duration-150">
-                                Easy (Lvl 5+)
-                            </button>
-                        </div>
-                    </div>
-                    <!-- End Filter Section -->
-
-
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-3 sm:space-y-0">
-                        <p id="total-entries" class="text-sm text-slate-400">Your vocabulary, ranked by review urgency.</p>
-                        <div class="flex space-x-3">
-                            <!-- The Start Review button was moved to the prominent position in the header -->
-                            <button onclick="window.exportHandler()"
-                                    class="px-4 py-2 bg-slate-600 text-white rounded-xl shadow-md hover:bg-slate-500 transition duration-150 transform hover:scale-[1.01]">
-                                <svg class="w-5 h-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                Export
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="overflow-x-auto rounded-lg shadow-xl shadow-slate-900/50">
-                        <table class="min-w-full">
-                            <thead id="vocab-table-head">
-                                <tr>
-                                    <th class="table-header w-1/5">Word</th>
-                                    <th class="table-header w-1/12">Type</th> 
-                                    <th class="table-header w-1/6">Category</th> 
-                                    <th class="table-header w-1/6">Next Review</th>
-                                    <th class="table-header w-1/12 text-center">Level</th>
-                                    <th class="table-header w-1/4">Challenge Actions</th>
-                                    <th class="table-header w-1/12 text-center">Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody id="vocab-table-body" class="divide-y divide-slate-700 text-slate-200">
-                                <tr><td colspan="7" class="p-6 text-center text-slate-500 bg-slate-800">Loading vocabulary...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-        </main>
+        </div>
     </div>
+
+</div>
+
+<script>
+    const apiKey = ""; // Provided at runtime
+
+    // Reliable PCM to WAV Conversion
+    function pcmToWav(pcmData, sampleRate = 24000) {
+        const headerSize = 44;
+        const buffer = new ArrayBuffer(headerSize + pcmData.length);
+        const view = new DataView(buffer);
+        
+        const writeString = (offset, string) => {
+            for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+        };
+
+        writeString(0, 'RIFF');
+        view.setUint32(4, 36 + pcmData.length, true);
+        writeString(8, 'WAVE');
+        writeString(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true); // PCM format
+        view.setUint16(22, 1, true); // Mono
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * 2, true); // Byte rate
+        view.setUint16(32, 2, true); // Block align
+        view.setUint16(34, 16, true); // Bits per sample
+        writeString(36, 'data');
+        view.setUint32(40, pcmData.length, true);
+
+        const uint8Pcm = new Uint8Array(pcmData);
+        const finalBuffer = new Uint8Array(buffer);
+        finalBuffer.set(uint8Pcm, headerSize);
+
+        return new Blob([finalBuffer], { type: 'audio/wav' });
+    }
+
+    async function playExpression(text, retries = 5) {
+        const btn = document.getElementById('playAudioBtn');
+        const icon = document.getElementById('playIcon');
+        const label = document.getElementById('btnLabel');
+        const status = document.getElementById('audioStatus');
+        
+        btn.disabled = true;
+        icon.classList.add('playing-icon');
+        label.textContent = "Connecting...";
+        status.textContent = "Initiating transmission...";
+
+        const fetchWithBackoff = async (attempt) => {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Say naturally: ${text}` }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: {
+                                    prebuiltVoiceConfig: { voiceName: "Puck" }
+                                }
+                            }
+                        }
+                    })
+                });
+
+                if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
+                
+                const result = await response.json();
+                const audioBase64 = result.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                if (!audioBase64) throw new Error("No audio data received");
+
+                const binaryString = atob(audioBase64);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                const wavBlob = pcmToWav(bytes.buffer, 24000);
+                const audioUrl = URL.createObjectURL(wavBlob);
+                const audio = new Audio(audioUrl);
+                
+                label.textContent = "Transmitting...";
+                status.textContent = "Token signal stable.";
+
+                audio.onended = () => {
+                    btn.disabled = false;
+                    icon.classList.remove('playing-icon');
+                    label.textContent = "Play Audio";
+                    status.textContent = "";
+                    URL.revokeObjectURL(audioUrl);
+                };
+
+                await audio.play();
+            } catch (error) {
+                if (attempt < retries) {
+                    const wait = Math.pow(2, attempt) * 1000;
+                    status.textContent = `Retrying signal (${attempt}/${retries})...`;
+                    await new Promise(r => setTimeout(r, wait));
+                    return fetchWithBackoff(attempt + 1);
+                }
+                throw error;
+            }
+        };
+
+        try {
+            await fetchWithBackoff(0);
+        } catch (error) {
+            btn.disabled = false;
+            icon.classList.remove('playing-icon');
+            label.textContent = "Retry Signal";
+            status.textContent = "Transmission failed. Check connection.";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tab');
+        const sections = document.querySelectorAll('.card-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-target');
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                sections.forEach(s => {
+                    s.classList.remove('active');
+                    if (s.id === target) s.classList.add('active');
+                });
+            });
+        });
+
+        document.getElementById('playAudioBtn').addEventListener('click', () => {
+            playExpression("Loud and clear");
+        });
+
+        // Drag and Drop rebuild (preserved from original logic)
+        const dropZone = document.getElementById('dropZone');
+        const feedback = document.getElementById('feedback');
+        const nodes = document.querySelectorAll('.node');
+        const correctSequence = ["Loud", "and", "clear"];
+
+        nodes.forEach(node => {
+            node.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', node.dataset.word));
+        });
+
+        dropZone.addEventListener('dragover', (e) => e.preventDefault());
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const word = e.dataTransfer.getData('text/plain');
+            const node = Array.from(nodes).find(n => n.dataset.word === word);
+            if (node) { dropZone.appendChild(node); checkSequence(); }
+        });
+
+        function checkSequence() {
+            const currentWords = Array.from(dropZone.querySelectorAll('.node')).map(n => n.dataset.word);
+            if (currentWords.length === correctSequence.length) {
+                const isCorrect = currentWords.every((w, i) => w.toLowerCase() === correctSequence[i].toLowerCase());
+                feedback.textContent = isCorrect ? "SYNCHRONIZED: CHAIN VALIDATED" : "ERROR: SEQUENCE MISMATCH";
+                feedback.style.color = isCorrect ? "var(--accent-secondary)" : "#ff007a";
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.body.style.backgroundImage = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(122, 0, 255, 0.1) 0%, transparent 40%), radial-gradient(circle at 50% 0%, #1a0033 0%, transparent 50%), radial-gradient(circle at 0% 100%, #050510 0%, transparent 40%)`;
+        });
+    });
+</script>
 
 </body>
 </html>
