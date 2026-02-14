@@ -1,799 +1,1503 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DABY Blockchain Method - Futuristic Learning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-deep: #050510;
-            --bg-surface: #0a0a1f;
-            --accent-primary: #7a00ff;
-            --accent-secondary: #00eaff;
-            --accent-glow: rgba(0, 234, 255, 0.4);
-            --text-main: #e6e6ff;
-            --text-dim: #b8eaff;
-            --border-glow: rgba(122, 0, 255, 0.3);
-            --transition-speed: 0.3s;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive English Coaching for Global Brazilian Professionals by Daby - Next Station English</title>
+    <meta name="description" content="Executive English Coaching: Acelere sua carreira com nosso método focado em negócios e oportunidades globais.">
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+    <!-- Icons (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Inter", sans-serif;
-            background: var(--bg-deep);
-            background-image: 
-                radial-gradient(circle at 50% 0%, #1a0033 0%, transparent 50%),
-                radial-gradient(circle at 0% 100%, #050510 0%, transparent 40%);
-            color: var(--text-main);
-            overflow-x: hidden;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.1;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 60px auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header-group {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .header-title {
-            font-size: clamp(32px, 8vw, 64px);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            background: linear-gradient(to right, #9c4dff, #4df2ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-            filter: drop-shadow(0 0 10px rgba(156, 77, 255, 0.3));
-        }
-
-        .header-sub {
-            font-size: clamp(14px, 2.5vw, 18px);
-            font-weight: 600;
-            letter-spacing: 4px;
-            color: var(--accent-secondary);
-            opacity: 0.8;
-            margin-top: 10px;
-            text-transform: uppercase;
-        }
-
-        .welcome-box {
-            background: rgba(10, 10, 31, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 40px;
-            border: 1px solid var(--border-glow);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px var(--border-glow);
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .welcome-title {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--accent-primary);
-        }
-
-        .welcome-text {
-            color: var(--text-dim);
-            font-size: 18px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .tabs-container {
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-            margin-bottom: 40px;
-        }
-
-        .tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding: 10px;
-            scrollbar-width: none;
-            justify-content: flex-start;
-            background: rgba(5, 5, 16, 0.8);
-            backdrop-filter: blur(15px);
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .tabs::-webkit-scrollbar { display: none; }
-
-        .tab {
-            padding: 12px 24px;
-            font-weight: 600;
-            font-size: 14px;
-            border-radius: 40px;
-            cursor: pointer;
-            white-space: nowrap;
-            color: var(--text-dim);
-            transition: all var(--transition-speed);
-            border: 1px solid transparent;
-        }
-
-        .tab:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
-        .tab.active {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: #000;
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .card-section {
-            display: none;
-            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .card-section.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-
-        .card-title {
-            font-size: clamp(24px, 4vw, 36px);
-            font-weight: 800;
-            background: linear-gradient(90deg, #fff, var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .card-item {
-            background: var(--bg-surface);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-item.centered {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 250px;
-            gap: 20px;
-        }
-
-        .gradient-expression {
-            font-size: clamp(40px, 10vw, 80px);
-            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary), var(--accent-secondary));
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            animation: shine 3s linear infinite;
-            text-align: center;
-        }
-
-        .playback-btn {
-            background: rgba(0, 234, 255, 0.1);
-            border: 1px solid var(--accent-secondary);
-            color: var(--accent-secondary);
-            padding: 12px 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 14px;
-        }
-
-        .playback-btn:hover:not(:disabled) {
-            background: var(--accent-secondary);
-            color: #000;
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .playback-btn:disabled { opacity: 0.5; cursor: wait; }
-
-        .playback-btn svg { width: 20px; height: 20px; }
-
-        @keyframes pulse-audio {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .playing-icon { animation: pulse-audio 1s infinite ease-in-out; }
-
-        @keyframes shine { to { background-position: 200% center; } }
-
-        .scenario-box {
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border-left: 6px solid;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .box-logic { border-color: var(--accent-secondary); background: rgba(0, 234, 255, 0.03); }
-        .box-corporate { border-color: #ff007a; background: rgba(255, 0, 122, 0.03); }
-        .box-leadership { border-color: #00ff7a; background: rgba(0, 255, 122, 0.03); }
-
-        .scenario-header-text {
-            font-weight: 800;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            display: block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .code-block {
-            background: #000;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 15px;
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .variant-list {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .variant-entry {
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .variant-entry:last-child { border-bottom: none; }
-
-        .token-text {
-            font-family: 'Fira Code', monospace;
-            color: var(--accent-secondary);
-            font-weight: 600;
-            font-size: 18px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .context-list { list-style: none; padding: 0; margin: 0; }
-        .context-item {
-            padding: 15px;
-            margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .context-bullet {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-secondary);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-secondary);
-            flex-shrink: 0;
-        }
-        .context-highlight { color: var(--accent-secondary); font-weight: 700; }
-
-        .instruction-label {
-            display: block;
-            margin-bottom: 15px;
-            font-weight: 600;
-            color: var(--accent-secondary);
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-
-        .input-area {
-            width: 100%;
-            background: #000;
-            border: 2px solid var(--border-glow);
-            border-radius: 12px;
-            padding: 20px;
-            color: #fff;
-            font-family: 'Fira Code', monospace;
-            font-size: 20px;
-            outline: none;
-            transition: border-color 0.3s;
-            margin-bottom: 40px;
-        }
-
-        .input-area:focus { border-color: var(--accent-secondary); }
-
-        .drag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-            min-height: 60px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-        }
-
-        .node {
-            background: linear-gradient(135deg, var(--bg-surface), #151535);
-            border: 1px solid var(--border-glow);
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: grab;
-            user-select: none;
-            font-family: 'Fira Code', monospace;
-            font-weight: 600;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-
-        .node:active { cursor: grabbing; transform: scale(1.05); }
-
-        .drop-zone {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0;
-            min-height: 80px;
-            padding: 10px;
-            background: rgba(122, 0, 255, 0.05);
-            border-radius: 16px;
-            border: 2px solid var(--border-glow);
-        }
-
-        .feedback-message {
-            text-align: center;
-            font-weight: 800;
-            margin-top: 20px;
-            height: 24px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Drill Specific Styles */
-        .drill-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .transmission-box {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .dialogue-pair {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .speaker-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent-primary);
-            font-weight: 800;
-        }
-
-        .question-text {
-            font-size: 22px;
-            font-weight: 300;
-            color: var(--text-dim);
-            font-style: italic;
-        }
-
-        .answer-text {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--accent-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            filter: drop-shadow(0 0 5px var(--accent-glow));
-        }
-
-        .drill-footer {
-            margin-top: 10px;
-            padding: 15px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 13px;
-            color: #666;
-            font-family: 'Fira Code', monospace;
-        }
-
-        .status-msg {
-            font-size: 11px;
-            margin-top: 10px;
-            font-family: 'Fira Code', monospace;
-            color: var(--accent-secondary);
-            height: 14px;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            .container { margin: 30px auto; width: 92%; }
-            .tab { padding: 10px 18px; font-size: 13px; }
-        }
-    </style>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div class="container">
-    <header class="header-group">
-        <h1 class="header-title">DABY Method</h1>
-        <div class="header-sub">Blockchain-Logic Learning</div>
+    <!-- Header -->
+    <header id="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero">
+                    <div class="logo-placeholder" aria-label="Logo Next Station English">
+                        <span>NSE</span>
+                    </div>
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#como-funciona">Como Funciona</a></li>
+                    <li><a href="#nossos-desafios">Cursos</a></li>
+                    <li><a href="#diferenciais">Nossos Valores</a></li>
+                    <li><a href="#depoimentos">Depoimentos</a></li>
+                    <li><a href="#comunidade-recursos">Comunidade</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="language-selector">
+                    <select aria-label="Seletor de Idioma">
+                        <option value="pt-br">PT-BR</option>
+                        <option value="en">EN</option>
+                        <option value="es">ES</option>
+                    </select>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="Abrir menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </header>
 
-    <section class="welcome-box">
-        <div class="welcome-title">Initialize Protocol</div>
-        <div class="welcome-text">
-            Welcome to a modular learning architecture. We break down complex linguistic and conceptual nodes into <strong>immutable blocks</strong>. Visual, ADHD-optimized, and built for retention.
+    <!-- Hero Section (First Fold) -->
+    <section id="hero" class="hero-section">
+        <div class="hero-video-wrapper">
+            <!-- BACKGROUND VIDEO CONFIGURATION -->
+            <video autoplay muted loop playsinline poster="images/video-poster.jpg" class="hero-video">
+                <source src="videos/11.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+            <!-- O TÍTULO AGORA ESTÁ AQUI, SOBREPOSTO AO VÍDEO -->
+            <h1 class="hero-title video-overlay-title">Executive English Coaching for <span class="global-colors">Global</span> <span class="brazilian-flag-text">Brazilian</span> Professionals by Daby.</h1>
+            <!-- SUBTÍTULO RE-ADICIONADO AQUI -->
+            <p class="hero-subtitle video-overlay-subtitle-text">Mais do que fluência, é sobre impacto e mensagem estratégica. O Executive English Coaching by Daby prepara líderes brasileiros para comunicar, influenciar e competir globalmente.</p>
+            <!-- Botões de CTA sobrepostos ao vídeo -->
+            <div class="hero-buttons overlay-buttons">
+                <a href="#nossos-desafios" class="btn-cta">Ver Cursos</a>
+                <a href="#contato" class="btn-cta-secondary">Fale Conosco</a>
+            </div>
         </div>
     </section>
 
-    <nav class="tabs-container">
-        <div class="tabs" id="tabBar">
-            <div class="tab active" data-target="expression">Expression</div>
-            <div class="tab" data-target="guide">Guide</div>
-            <div class="tab" data-target="situations">Context</div>
-            <div class="tab" data-target="scenarios">Scenarios</div>
-            <div class="tab" data-target="alternatives">Variants</div>
-            <div class="tab" data-target="write">Compose</div>
-            <div class="tab" data-target="practice">Drills</div>
+    <!-- NOVA SEÇÃO: Micro-tagline (entre Hero e Destaques em Vídeo) -->
+    <section id="micro-tagline-section" class="section-padding bg-dark-micro text-center">
+        <div class="container">
+            <h2 class="section-title">Fale com autoridade. Lidere globalmente.</h2>
+            <p class="section-subtitle neon-brown-text">Mais do que fluência, é sobre impacto e mensagem estratégica. O Executive English Coaching by Daby prepara líderes brasileiros para comunicar, influenciar e competir globalmente.</p>
+            <br>
+            <p class="tagline-bold-uppercase-pink">FALE COM AUTORIDADE. LIDERE GLOBALMENTE.</p>
         </div>
-    </nav>
+    </section>
+    <!-- FIM DA NOVA SEÇÃO -->
 
-    <!-- Expression -->
-    <div id="expression" class="card-section active">
-        <div class="section-header"><div class="card-title">Core Token</div></div>
-        <div class="card-grid">
-            <div class="card-item centered">
-                <div class="gradient-expression" id="mainPhrase">Loud and clear</div>
-                <button class="playback-btn" id="playAudioBtn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="playIcon">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                    </svg>
-                    <span id="btnLabel">Play Audio</span>
-                </button>
-                <div id="audioStatus" class="status-msg"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Guide -->
-    <div id="guide" class="card-section">
-        <div class="section-header"><div class="card-title">Explicação Completa</div></div>
-        <div class="card-item" style="display: block;">
-            <div class="scenario-box box-logic">
-                <span class="scenario-header-text" style="color: var(--accent-secondary);">O que significa?</span>
-                <p>Equivalente a "Na escuta" ou "Entendido perfeitamente". Confirma que a conexão está estável e que você compreendeu cada palavra.</p>
-            </div>
-            <div class="scenario-box box-corporate">
-                <span class="scenario-header-text" style="color: #bc7eff;">Situação: Reuniões Online</span>
-                <p>Responda a mic-checks com autoridade. "I hear you loud and clear."</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Context -->
-    <div id="situations" class="card-section">
-        <div class="section-header"><div class="card-title">Environmental Context</div></div>
-        <div class="card-item" style="display: block;">
-            <ul class="context-list">
-                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Global Meetings:</span> Audio checks on Zoom/Teams.</div></li>
-                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Presentations:</span> Confirming questions from the audience.</div></li>
-                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Crisis Management:</span> Acknowledging urgent instructions.</div></li>
-                <li class="context-item"><div class="context-bullet"></div><div><span class="context-highlight">Negotiations:</span> Acknowledging specific verbal clauses.</div></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Scenarios -->
-    <div id="scenarios" class="card-section">
-        <div class="section-header"><div class="card-title">Operational Simulations</div></div>
-        <div class="card-item" style="display: block;">
-            <div class="scenario-box box-leadership">
-                <span class="scenario-header-text">Confidence Projection</span>
-                <p>Instead of a weak "yes", dominate the audio space: "Thanks Mark, loud and clear on my end."</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Variants -->
-    <div id="alternatives" class="card-section">
-        <div class="section-header"><div class="card-title">Variant Tokens</div></div>
-        <div class="card-item" style="display: block;">
-            <div class="variant-list">
-                <div class="variant-entry">
-                    <span class="label-sm">Inquiry Protocol</span>
-                    <span class="token-text">"Am I coming through clearly?"</span>
+    <!-- NOVA SEÇÃO: Destaques em Vídeo (Logo após a Hero Section) -->
+    <section id="section-videos-highlights" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Programa Exclusivo para Profissionais Brasileiros</h2>
+            <p class="section-subtitle">Desenvolva a comunicação executiva em inglês para reuniões, apresentações e liderança global.</p>
+            <div class="video-highlights-grid">
+                <div class="video-highlight-item">
+                    <!-- FRASE COM GRADIENTE -->
+                    <p class="highlight-phrase career-propel-text">Inglês que impulsiona sua carreira.</p>
+                    <video autoplay muted loop playsinline poster="images/video-poster-thumb.jpg" class="highlight-video">
+                        <source src="videos/meet.mp4" type="video/mp4">
+                        Seu navegador não suporta o vídeo.
+                    </video>
+                    <span class="sources">Fonte: Estudo de Mercado Global 2025</span>
                 </div>
-                <div class="variant-entry">
-                    <span class="label-sm">Standard</span>
-                    <span class="token-text">"You are coming through okay."</span>
-                </div>
-                <div class="variant-entry">
-                    <span class="label-sm">High-Fidelity</span>
-                    <span class="token-text">"Crystal clear."</span>
+                <div class="video-highlight-item">
+                    <p class="highlight-phrase career-propel-text">Comunicação estratégica para líderes.</p>
+                    <video autoplay muted loop playsinline poster="images/video-poster-thumb.jpg" class="highlight-video">
+                        <source src="videos/meet%202.mp4" type="video/mp4">
+                        Seu navegador não suporta o vídeo.
+                    </video>
+                    <span class="sources">Fonte: Harvard Business Review</span>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+    <!-- FIM DA NOVA SEÇÃO -->
 
-    <!-- Compose -->
-    <div id="write" class="card-section">
-        <div class="section-header"><div class="card-title">Logic Synthesis</div></div>
-        <div class="card-item" style="display: block;">
-            <label class="instruction-label">Manual Block Entry</label>
-            <input type="text" class="input-area" id="manualInput" placeholder="Enter expression..." autocomplete="off">
-
-            <label class="instruction-label">Blockchain Rebuild</label>
-            <div id="dropZone" class="drop-zone"></div>
-            <div id="dragContainer" class="drag-container">
-                <div class="node" draggable="true" data-word="Loud">Loud</div>
-                <div class="node" draggable="true" data-word="and">and</div>
-                <div class="node" draggable="true" data-word="clear">clear</div>
+    <!-- NOVA SEÇÃO: Texto com Imagem (Direita) -->
+    <section id="section-text-image-right" class="section-padding bg-light">
+        <div class="container">
+            <div class="content-grid">
+                <div class="text-content">
+                    <h2 class="section-title">A Daby te prepara para o mundo</h2>
+                    <p>Com a Daby, você não apenas aprende inglês; você desenvolve a confiança e a clareza para se destacar em qualquer ambiente profissional global. Nossa metodologia é focada em resultados, garantindo que cada aula seja um passo em direção à sua fluência executiva.</p>
+                    <a href="#contato" class="btn-cta">Fale com a Daby</a>
+                </div>
+                <div class="image-content">
+                    <img src="images/daby-world.jpg" alt="Daby com o mundo ao fundo">
+                </div>
             </div>
-            <div id="feedback" class="feedback-message"></div>
         </div>
-    </div>
+    </section>
+    <!-- FIM DA NOVA SEÇÃO -->
 
-    <!-- Drills -->
-    <div id="practice" class="card-section">
-        <div class="section-header"><div class="card-title">Fluency Drills</div></div>
-        <div class="card-item" style="display: block;">
-            <div class="drill-container">
-                <div class="transmission-box">
-                    <div class="dialogue-pair">
-                        <span class="speaker-label">Inbound Signal (Interrogative)</span>
-                        <div class="question-text">"Can you hear me?"</div>
+    <!-- SECTION 4: Nossos Desafios -->
+    <section id="nossos-desafios" class="section-padding bg-dark">
+        <div class="container">
+            <h2 class="section-title text-white">Nossos Desafios: Transformando Limites em Oportunidades</h2>
+            <p class="section-subtitle text-white">Enfrente e supere os desafios mais comuns na comunicação executiva em inglês.</p>
+            <div class="desafios-grid">
+                <div class="desafio-item">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h3>Apresentações de Alto Impacto</h3>
+                    <p>Domine a arte de apresentar ideias complexas com clareza e confiança para audiências globais.</p>
+                </div>
+                <div class="desafio-item">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Negociações Estratégicas</h3>
+                    <p>Desenvolva táticas de comunicação para negociar com sucesso e fechar acordos internacionais.</p>
+                </div>
+                <div class="desafio-item">
+                    <i class="fas fa-comments-dollar"></i>
+                    <h3>Reuniões Produtivas</h3>
+                    <p>Participe ativamente, expresse suas opiniões e conduza reuniões eficazes em inglês.</p>
+                </div>
+                <div class="desafio-item">
+                    <i class="fas fa-feather-alt"></i>
+                    <h3>Escrita Executiva Clara</h3>
+                    <p>Aprimore e-mails, relatórios e propostas para uma comunicação escrita profissional e impactante.</p>
+                </div>
+                <div class="desafio-item">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>Networking Global</h3>
+                    <p>Construa e mantenha relacionamentos profissionais valiosos em um contexto internacional.</p>
+                </div>
+                <div class="desafio-item">
+                    <i class="fas fa-brain"></i>
+                    <h3>Pensamento Crítico em Inglês</h3>
+                    <p>Desenvolva a capacidade de analisar, sintetizar e articular pensamentos complexos em inglês.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FIM DA SECTION 4 -->
+
+    <!-- SECTION 5: Nossos Valores -->
+    <section id="diferenciais" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Nossos Valores: A Base do Seu Sucesso</h2>
+            <p class="section-subtitle">Conheça os princípios que guiam nosso coaching e impulsionam sua jornada.</p>
+            <div class="diferenciais-grid">
+                <div class="diferencial-item">
+                    <i class="fas fa-gem"></i>
+                    <h3>Excelência Personalizada</h3>
+                    <p>Foco total nas suas necessidades e objetivos, com um plano de coaching adaptado à sua realidade.</p>
+                </div>
+                <div class="diferencial-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Inovação Contínua</h3>
+                    <p>Metodologias atualizadas e recursos de ponta para um aprendizado dinâmico e eficaz.</p>
+                </div>
+                <div class="diferencial-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Comunidade e Suporte</h3>
+                    <p>Acesso a uma rede de profissionais e suporte contínuo para sua evolução.</p>
+                </div>
+                <div class="diferencial-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Resultados Comprovados</h3>
+                    <p>Compromisso com o seu progresso e impacto real na sua carreira e comunicação.</p>
+                </div>
+                <div class="diferencial-item">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h3>Empatia e Respeito</h3>
+                    <p>Um ambiente de aprendizado acolhedor e respeitoso, onde você se sente à vontade para crescer.</p>
+                </div>
+                <div class="diferencial-item">
+                    <i class="fas fa-award"></i>
+                    <h3>Integridade e Transparência</h3>
+                    <p>Nossa comunicação é sempre clara e honesta, construindo uma relação de confiança mútua.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FIM DA SECTION 5 -->
+
+    <!-- SECTION 2: How It Works -->
+    <section id="como-funciona" class="section-padding bg-dark">
+        <div class="container">
+            <h2 class="section-title text-white">Como Funciona: Sua Jornada para a Fluência Executiva</h2>
+            <p class="section-subtitle text-white">Nosso método exclusivo é desenhado para o profissional que busca resultados rápidos e eficazes.</p>
+            <div class="how-it-works-grid">
+                <div class="how-it-works-item">
+                    <div class="icon-circle"><i class="fas fa-user-check"></i></div>
+                    <h3>Avaliação Personalizada</h3>
+                    <p>Começamos com um diagnóstico detalhado do seu nível e objetivos.</p>
+                </div>
+                <div class="how-it-works-item">
+                    <div class="icon-circle"><i class="fas fa-book-open"></i></div>
+                    <h3>Plano de Estudo Flexível</h3>
+                    <p>Crie um cronograma que se encaixe na sua agenda, com aulas online e materiais exclusivos.</p>
+                </div>
+                <div class="how-it-works-item">
+                    <div class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>Aulas com Especialistas</h3>
+                    <p>Aprenda com professores nativos e bilíngues, focados em inglês para negócios.</p>
+                </div>
+                <div class="how-it-works-item">
+                    <div class="icon-circle"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Monitoramento de Progresso</h3>
+                    <p>Acompanhe sua evolução com relatórios regulares e feedback construtivo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FIM DA SECTION 2 -->
+
+    <!-- SECTION 6: Depoimentos -->
+    <section id="depoimentos" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">O Que Nossos Alunos Dizem</h2>
+            <p class="section-subtitle">Histórias de sucesso que inspiram e comprovam a eficácia do nosso método.</p>
+            <div class="depoimentos-grid">
+                <div class="depoimento-item">
+                    <img src="images/depoimento1.jpg" alt="Foto de Aluno 1" class="depoimento-img">
+                    <p class="depoimento-text">"O coaching da Daby transformou minha forma de me comunicar em reuniões internacionais. Sinto muito mais confiança!"</p>
+                    <p class="depoimento-author">João Silva, CEO</p>
+                </div>
+                <div class="depoimento-item">
+                    <img src="images/depoimento2.jpg" alt="Foto de Aluno 2" class="depoimento-img">
+                    <p class="depoimento-text">"As aulas são super dinâmicas e focadas no meu dia a dia. Consegui fechar um grande negócio graças às técnicas de negociação."</p>
+                    <p class="depoimento-author">Maria Oliveira, Diretora de Vendas</p>
+                </div>
+                <div class="depoimento-item">
+                    <img src="images/depoimento3.jpg" alt="Foto de Aluno 3" class="depoimento-img">
+                    <p class="depoimento-text">"Finalmente encontrei um curso que entende as necessidades de um executivo. Recomendo a todos que buscam excelência."</p>
+                    <p class="depoimento-author">Carlos Santos, Gerente de Projetos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FIM DA SECTION 6 -->
+
+    <!-- SECTION 7: Comunidade e Recursos -->
+    <section id="comunidade-recursos" class="section-padding bg-dark">
+        <div class="container">
+            <h2 class="section-title text-white">Comunidade e Recursos Exclusivos</h2>
+            <p class="section-subtitle text-white">Conecte-se, aprenda e cresça com uma rede de profissionais de alto nível.</p>
+            <div class="recursos-grid">
+                <div class="recurso-item">
+                    <i class="fas fa-users-cog"></i>
+                    <h3>Workshops e Webinars</h3>
+                    <p>Participe de eventos exclusivos com especialistas do mercado e aprimore suas habilidades.</p>
+                </div>
+                <div class="recurso-item">
+                    <i class="fas fa-book-reader"></i>
+                    <h3>Biblioteca de Conteúdo</h3>
+                    <p>Acesso ilimitado a artigos, e-books e estudos de caso focados em inglês executivo.</p>
+                </div>
+                <div class="recurso-item">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>Networking Exclusivo</h3>
+                    <p>Conecte-se com outros profissionais ambiciosos e expanda sua rede de contatos globais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FIM DA SECTION 7 -->
+
+    <!-- SECTION 8: FAQ -->
+    <section id="faq" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <p class="section-subtitle">Tire suas dúvidas sobre nosso programa de Executive English Coaching.</p>
+            <div class="accordion-container">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Qual a metodologia do curso?</h3>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-                    
-                    <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 5px 0;"></div>
-
-                    <div class="dialogue-pair">
-                        <span class="speaker-label">Outbound Response (DABY Token)</span>
-                        <div class="answer-text">"Loud and clear."</div>
+                    <div class="accordion-content">
+                        <p>Nossa metodologia é focada em comunicação executiva, com aulas personalizadas, simulações de cenários reais de negócios e feedback contínuo para garantir sua fluência e confiança.</p>
                     </div>
                 </div>
-
-                <div class="code-block">
-                    <span class="label-sm" style="color: #fff">Execution Script:</span>
-                    1. Imagine a crackling radio signal.<br>
-                    2. Hear the question: "Can you hear me?"<br>
-                    3. Respond instantly: "Loud and clear."<br>
-                    4. Repeat 5 times to lock the neural pathway.
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Os professores são nativos?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Contamos com uma equipe de professores altamente qualificados, incluindo nativos e bilíngues com vasta experiência em inglês para negócios e coaching executivo.</p>
+                    </div>
                 </div>
-                
-                <div class="drill-footer">
-                    *Focus on the hard 'd' in Loud and the rhythmic bridge of 'and' to 'clear'.
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Como funciona a avaliação de nível?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Realizamos uma avaliação diagnóstica completa para entender seu nível atual, suas necessidades específicas e seus objetivos de carreira, a fim de criar um plano de estudo sob medida.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Posso personalizar meu horário de aulas?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Sim, oferecemos flexibilidade total para você agendar suas aulas de acordo com sua disponibilidade, garantindo que o programa se adapte à sua rotina profissional.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+    <!-- FIM DA SECTION 8 -->
 
-</div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <div class="logo-placeholder">
+                    <span>NSE</span>
+                </div>
+                <p>&copy; 2026 Next Station English. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="#como-funciona">Como Funciona</a></li>
+                    <li><a href="#nossos-desafios">Cursos</a></li>
+                    <li><a href="#diferenciais">Nossos Valores</a></li>
+                    <li><a href="#depoimentos">Depoimentos</a></li>
+                </ul>
+            </div>
+            <div class="social-links">
+                <h4>Siga-nos</h4>
+                <div class="social-icons">
+                    <a href="https://linkedin.com" target="_blank" style="text-decoration: underline;"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com" target="_blank" style="text-decoration: underline;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com" target="_blank" style="text-decoration: underline;"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-<script>
-    const apiKey = ""; // Provided at runtime
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
 
-    // Reliable PCM to WAV Conversion
-    function pcmToWav(pcmData, sampleRate = 24000) {
-        const headerSize = 44;
-        const buffer = new ArrayBuffer(headerSize + pcmData.length);
-        const view = new DataView(buffer);
-        
-        const writeString = (offset, string) => {
-            for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
-        };
+            menuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+            });
 
-        writeString(0, 'RIFF');
-        view.setUint32(4, 36 + pcmData.length, true);
-        writeString(8, 'WAVE');
-        writeString(12, 'fmt ');
-        view.setUint32(16, 16, true);
-        view.setUint16(20, 1, true); // PCM format
-        view.setUint16(22, 1, true); // Mono
-        view.setUint32(24, sampleRate, true);
-        view.setUint32(28, sampleRate * 2, true); // Byte rate
-        view.setUint16(32, 2, true); // Block align
-        view.setUint16(34, 16, true); // Bits per sample
-        writeString(36, 'data');
-        view.setUint32(40, pcmData.length, true);
-
-        const uint8Pcm = new Uint8Array(pcmData);
-        const finalBuffer = new Uint8Array(buffer);
-        finalBuffer.set(uint8Pcm, headerSize);
-
-        return new Blob([finalBuffer], { type: 'audio/wav' });
-    }
-
-    async function playExpression(text, retries = 5) {
-        const btn = document.getElementById('playAudioBtn');
-        const icon = document.getElementById('playIcon');
-        const label = document.getElementById('btnLabel');
-        const status = document.getElementById('audioStatus');
-        
-        btn.disabled = true;
-        icon.classList.add('playing-icon');
-        label.textContent = "Connecting...";
-        status.textContent = "Initiating transmission...";
-
-        const fetchWithBackoff = async (attempt) => {
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Say naturally: ${text}` }] }],
-                        generationConfig: {
-                            responseModalities: ["AUDIO"],
-                            speechConfig: {
-                                voiceConfig: {
-                                    prebuiltVoiceConfig: { voiceName: "Puck" }
-                                }
-                            }
-                        }
-                    })
-                });
-
-                if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-                
-                const result = await response.json();
-                const audioBase64 = result.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-                if (!audioBase64) throw new Error("No audio data received");
-
-                const binaryString = atob(audioBase64);
-                const bytes = new Uint8Array(binaryString.length);
-                for (let i = 0; i < binaryString.length; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
-                }
-
-                const wavBlob = pcmToWav(bytes.buffer, 24000);
-                const audioUrl = URL.createObjectURL(wavBlob);
-                const audio = new Audio(audioUrl);
-                
-                label.textContent = "Transmitting...";
-                status.textContent = "Token signal stable.";
-
-                audio.onended = () => {
-                    btn.disabled = false;
-                    icon.classList.remove('playing-icon');
-                    label.textContent = "Play Audio";
-                    status.textContent = "";
-                    URL.revokeObjectURL(audioUrl);
-                };
-
-                await audio.play();
-            } catch (error) {
-                if (attempt < retries) {
-                    const wait = Math.pow(2, attempt) * 1000;
-                    status.textContent = `Retrying signal (${attempt}/${retries})...`;
-                    await new Promise(r => setTimeout(r, wait));
-                    return fetchWithBackoff(attempt + 1);
-                }
-                throw error;
-            }
-        };
-
-        try {
-            await fetchWithBackoff(0);
-        } catch (error) {
-            btn.disabled = false;
-            icon.classList.remove('playing-icon');
-            label.textContent = "Retry Signal";
-            status.textContent = "Transmission failed. Check connection.";
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const tabs = document.querySelectorAll('.tab');
-        const sections = document.querySelectorAll('.card-section');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = tab.getAttribute('data-target');
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                sections.forEach(s => {
-                    s.classList.remove('active');
-                    if (s.id === target) s.classList.add('active');
+            // Close menu when a nav link is clicked (for smooth scrolling)
+            mainNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('active');
                 });
             });
         });
+    </script>
 
-        document.getElementById('playAudioBtn').addEventListener('click', () => {
-            playExpression("Loud and clear");
+    <!-- JavaScript for FAQ Accordion -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const accordionItem = this.closest('.accordion-item');
+                    accordionItem.classList.toggle('active');
+                });
+            });
         });
-
-        // Drag and Drop rebuild (preserved from original logic)
-        const dropZone = document.getElementById('dropZone');
-        const feedback = document.getElementById('feedback');
-        const nodes = document.querySelectorAll('.node');
-        const correctSequence = ["Loud", "and", "clear"];
-
-        nodes.forEach(node => {
-            node.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', node.dataset.word));
-        });
-
-        dropZone.addEventListener('dragover', (e) => e.preventDefault());
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const word = e.dataTransfer.getData('text/plain');
-            const node = Array.from(nodes).find(n => n.dataset.word === word);
-            if (node) { dropZone.appendChild(node); checkSequence(); }
-        });
-
-        function checkSequence() {
-            const currentWords = Array.from(dropZone.querySelectorAll('.node')).map(n => n.dataset.word);
-            if (currentWords.length === correctSequence.length) {
-                const isCorrect = currentWords.every((w, i) => w.toLowerCase() === correctSequence[i].toLowerCase());
-                feedback.textContent = isCorrect ? "SYNCHRONIZED: CHAIN VALIDATED" : "ERROR: SEQUENCE MISMATCH";
-                feedback.style.color = isCorrect ? "var(--accent-secondary)" : "#ff007a";
-            }
-        }
-
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            document.body.style.backgroundImage = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(122, 0, 255, 0.1) 0%, transparent 40%), radial-gradient(circle at 50% 0%, #1a0033 0%, transparent 50%), radial-gradient(circle at 0% 100%, #050510 0%, transparent 40%)`;
-        });
-    });
-</script>
+    </script>
 
 </body>
 </html>
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Menu Mobile Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+
+    if (menuToggle && mainNav) {
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (mainNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    }
+
+    // FAQ Accordion
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            const accordionContent = header.nextElementSibling;
+
+            // Fecha outros itens abertos
+            document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    otherItem.querySelector('.accordion-header i').classList.remove('fa-times');
+                    otherItem.querySelector('.accordion-header i').classList.add('fa-chevron-down');
+                }
+            });
+
+            // Alterna o item clicado
+            item.classList.toggle('active');
+            const icon = header.querySelector('i');
+            if (item.classList.contains('active')) {
+                accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-times'); // Ícone de fechar
+            } else {
+                accordionContent.style.maxHeight = null;
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-chevron-down'); // Ícone de abrir
+            }
+        });
+    });
+
+    // Smooth Scroll para links internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 80, // Ajuste para o header fixo
+                    behavior: 'smooth'
+                });
+                // Fecha menu mobile ao clicar
+                if (mainNav && menuToggle && mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    });
+
+    // Adicionar efeito de "sticky" ao header ao rolar
+    const header = document.getElementById('main-header');
+    if (header) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { // Adiciona sombra após rolar 50px
+                header.style.boxShadow = 'var(--shadow-medium)';
+            } else {
+                header.style.boxShadow = 'var(--shadow-light)';
+            }
+        });
+    }
+});
+
+
+
+/* Variáveis CSS */
+:root {
+    --primary-color: #000000; /* Preto */
+    --secondary-color: #FFD700; /* Dourado */
+    --accent-color: #E91E63; /* Rosa vibrante para detalhes */
+    --white-bg: #FFFFFF;
+    --light-bg: #F8F8F8;
+    --dark-bg: #333333;
+    --dark-text: #444444;
+    --light-text: #666666;
+    --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --shadow-strong: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Reset Básico e Estilos Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--dark-text);
+    background-color: var(--white-bg);
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+.section-title {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.section-subtitle {
+    font-size: 1.1em;
+    color: var(--light-text);
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-white {
+    color: var(--white-bg) !important;
+}
+
+.bg-light {
+    background-color: var(--light-bg);
+}
+
+.bg-dark {
+    background-color: var(--primary-color); /* Usando a cor primária para seções escuras */
+}
+
+/* Botões CTA */
+.btn-cta {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid var(--secondary-color);
+}
+
+.btn-cta:hover {
+    background-color: #e6c200; /* Um pouco mais escuro */
+    transform: translateY(-2px);
+}
+
+.btn-cta-secondary {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--white-bg);
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid var(--white-bg);
+    margin-left: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-cta-secondary:hover {
+    background-color: var(--white-bg);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Header */
+#main-header {
+    background-color: var(--white-bg);
+    padding: 15px 0;
+    box-shadow: var(--shadow-light);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+#main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo .logo-placeholder {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.5em;
+    display: inline-block;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav a {
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: var(--secondary-color);
+}
+
+.language-selector select {
+    padding: 8px 15px;
+    border: 1px solid var(--light-text);
+    border-radius: 5px;
+    background-color: var(--white-bg);
+    color: var(--dark-text);
+    cursor: pointer;
+}
+
+/* Hero Section */
+#hero.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Altura total da viewport */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--white-bg);
+}
+
+.hero-video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(50%); /* Escurece o vídeo para o texto se destacar */
+}
+
+.hero-section .hero-title,
+.hero-section .hero-subtitle,
+.hero-section .hero-buttons {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    padding: 0 20px;
+}
+
+.video-overlay-title {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    font-weight: bold;
+    line-height: 1.2;
+    position: absolute;
+    top: 35%; /* Ajuste para centralizar verticalmente */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 900px;
+}
+
+.video-overlay-subtitle-text {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    position: absolute;
+    top: 55%; /* Ajuste para ficar abaixo do título */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 800px;
+}
+
+.overlay-buttons {
+    position: absolute;
+    bottom: 15%; /* Ajuste para ficar acima da parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+}
+
+.global-colors {
+    color: var(--secondary-color); /* Dourado */
+}
+
+.brazilian-flag-text {
+    color: #009739; /* Verde da bandeira */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Micro-tagline Section */
+#micro-tagline-section {
+    background-color: #1c1b1b; /* Cor escura específica */
+    color: var(--white-bg);
+    padding: 40px 0;
+}
+
+#micro-tagline-section .section-title {
+    color: var(--white-bg);
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+#micro-tagline-section .section-subtitle {
+    color: var(--white-bg);
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+.neon-brown-text {
+    color: #523c0a; /* Marrom neon */
+    text-shadow: 0 0 5px #523c0a, 0 0 10px #523c0a, 0 0 15px #523c0a; /* Efeito neon */
+    font-weight: bold;
+}
+
+.tagline-bold-uppercase-pink {
+    font-size: 1.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--accent-color); /* Rosa vibrante */
+    letter-spacing: 2px;
+    margin-top: 20px;
+}
+
+/* Section: Destaques em Vídeo */
+#section-videos-highlights .video-highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* Duas colunas para desktop */
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.video-highlight-item {
+    background-color: var(--white-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow-medium);
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 20px; /* Espaço para a fonte */
+}
+
+.video-highlight-item .highlight-phrase {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 25px 15px 20px 15px;
+    color: var(--primary-color);
+}
+
+.video-highlight-item .highlight-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0; /* Remove border-radius do vídeo em si */
+    margin-bottom: 15px;
+}
+
+.video-highlight-item .sources {
+    font-size: 0.85em;
+    color: var(--light-text);
+    display: block;
+    margin-top: 10px;
+}
+
+/* Section: Texto com Imagem (Direita) */
+#section-text-image-right .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas para desktop */
+    gap: 50px;
+    align-items: center; /* Alinha verticalmente o conteúdo */
+}
+
+#section-text-image-right .text-content {
+    text-align: left;
+}
+
+#section-text-image-right .text-content .section-title {
+    text-align: left; /* Sobrescreve o text-align: center padrão do section-title */
+    margin-bottom: 20px;
+}
+
+#section-text-image-right .text-content p {
+    margin-bottom: 20px;
+    color: var(--dark-text);
+}
+
+#section-text-image-right .image-content img {
+    display: block; /* Remove espaço extra abaixo da imagem */
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Opcional: para um visual mais suave */
+    box-shadow: var(--shadow-medium); /* Opcional: para profundidade */
+}
+
+/* Section: Nossos Desafios */
+.desafios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ajuste para 3 colunas em desktop, 1 ou 2 em mobile */
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.desafio-item {
+    background-color: var(--white-bg); /* Fundo branco para os itens */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.desafio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.desafio-item i {
+    font-size: 3.5em;
+    color: var(--secondary-color); /* Cor do ícone */
+    margin-bottom: 20px;
+}
+
+.desafio-item h3 {
+    color: var(--primary-color); /* Cor do título do item */
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+.desafio-item p {
+    color: var(--dark-text); /* Cor do texto do item */
+    font-size: 1em;
+}
+
+/* Section: Nossos Valores (Diferenciais) */
+.diferenciais-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ajuste para 3 colunas em desktop, 1 ou 2 em mobile */
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.diferencial-item {
+    background-color: var(--white-bg); /* Fundo branco para os itens */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.diferencial-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.diferencial-item i {
+    font-size: 3.5em;
+    color: var(--accent-color); /* Cor do ícone, usando a cor secundária */
+    margin-bottom: 20px;
+}
+
+.diferencial-item h3 {
+    color: var(--primary-color); /* Cor do título do item */
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+.diferencial-item p {
+    color: var(--dark-text); /* Cor do texto do item */
+    font-size: 1em;
+}
+
+/* Section: How It Works */
+.how-it-works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.how-it-works-item {
+    background-color: var(--white-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.how-it-works-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.how-it-works-item .icon-circle {
+    width: 80px;
+    height: 80px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+}
+
+.how-it-works-item .icon-circle i {
+    font-size: 2.5em;
+    color: var(--primary-color);
+}
+
+.how-it-works-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+.how-it-works-item p {
+    color: var(--dark-text);
+    font-size: 1em;
+}
+
+/* Section: Depoimentos */
+.depoimentos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.depoimento-item {
+    background-color: var(--white-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.depoimento-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.depoimento-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--secondary-color);
+}
+
+.depoimento-text {
+    font-style: italic;
+    color: var(--dark-text);
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.depoimento-author {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Section: Comunidade e Recursos */
+.recursos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.recurso-item {
+    background-color: var(--white-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recurso-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.recurso-item i {
+    font-size: 3.5em;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.recurso-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+.recurso-item p {
+    color: var(--dark-text);
+    font-size: 1em;
+}
+
+/* Section: FAQ */
+.accordion-container {
+    max-width: 800px;
+    margin: 40px auto 0 auto;
+}
+
+.accordion-item {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    background-color: var(--white-bg);
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-item.active .accordion-header {
+    background-color: var(--light-bg);
+}
+
+.accordion-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+.accordion-header i {
+    font-size: 1.2em;
+    color: var(--light-text);
+    transition: transform 0.3s ease;
+}
+
+.accordion-item.active .accordion-header i {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+    background-color: var(--light-bg);
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 200px; /* Altura máxima para o conteúdo se expandir */
+    padding: 20px;
+}
+
+.accordion-content p {
+    margin-bottom: 0;
+    color: var(--dark-text);
+}
+
+/* Footer */
+.footer {
+    padding: 50px 0 30px 0;
+    background-color: var(--primary-color); /* Fundo escuro para o footer */
+    color: var(--white-bg);
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-logo, .footer-links, .social-links {
+    min-width: 200px;
+    margin-bottom: 20px;
+}
+
+.footer-logo .logo-placeholder {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.footer-logo p {
+    font-size: 0.9em;
+    color: var(--light-bg);
+}
+
+.footer-links h4, .social-links h4 {
+    color: var(--white-bg);
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.footer-links ul li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: var(--light-bg);
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--secondary-color);
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: var(--white-bg);
+    font-size: 1.5em;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--secondary-color);
+}
+
+
+/* JavaScript para o menu mobile */
+.menu-toggle {
+    display: none; /* Esconde o botão de menu em desktop */
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+
+/* Media Queries para Responsividade */
+@media (max-width: 992px) {
+    .main-nav {
+        display: none; /* Esconde a navegação principal */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 70px; /* Ajuste conforme a altura do seu header */
+        left: 0;
+        background-color: var(--white-bg);
+        box-shadow: var(--shadow-medium);
+        padding: 20px 0;
+    }
+
+    .main-nav.active {
+        display: flex;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-nav a {
+        padding: 10px 20px;
+        display: block;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block; /* Mostra o botão de menu */
+    }
+
+    .header-actions {
+        display: none; /* Esconde o seletor de idioma no mobile, ou reposicione */
+    }
+
+    #hero.hero-section {
+        height: 70vh; /* Ajuste a altura para telas menores */
+    }
+
+    .video-overlay-title {
+        font-size: 2.2em; /* Ajuste para o título sobreposto no mobile */
+        width: 95%;
+        top: 30%; /* Ajuste a posição para telas menores */
+    }
+
+    .video-overlay-subtitle-text {
+        top: 48%; /* Ajuste para telas menores */
+        font-size: 1.1em;
+        width: 85%;
+    }
+
+    .overlay-buttons {
+        bottom: 10%; /* Ajuste a posição dos botões para telas menores */
+        flex-direction: column; /* Botões empilhados no mobile */
+        gap: 10px;
+    }
+
+    .overlay-buttons .btn-cta-secondary {
+        margin-left: 0; /* Remove margem extra no mobile */
+    }
+
+    h1 { font-size: 2.5em; }
+    h2 { font-size: 1.8em; }
+    h3 { font-size: 1.4em; }
+    h4 { font-size: 1.3em; } /* Ajuste para h4 em telas menores */
+
+    .tagline-bold-uppercase-pink {
+        font-size: 1.5em; /* Ajuste para telas menores */
+    }
+
+    .about-us-image {
+        order: -1; /* Coloca a imagem acima do texto no mobile */
+        margin-bottom: 30px;
+    }
+
+    .footer .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-logo, .footer-links, .social-links {
+        text-align: center;
+        min-width: unset;
+        width: 100%;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .video-highlights-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+    }
+
+    /* Responsive adjustments for section-text-image-right */
+    #section-text-image-right .content-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+        text-align: center;
+    }
+
+    #section-text-image-right .text-content {
+        order: 2; /* Coloca o texto abaixo da imagem no mobile */
+    }
+
+    #section-text-image-right .image-content {
+        order: 1; /* Coloca a imagem acima do texto no mobile */
+        margin-bottom: 30px;
+    }
+
+    #section-text-image-right .text-content .section-title {
+        text-align: center; /* Centraliza o título no mobile */
+    }
+
+    /* Responsive adjustments for desafios-grid */
+    .desafios-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 2 colunas em tablets */
+    }
+
+    /* Responsive adjustments for diferenciais-grid */
+    .diferenciais-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 2 colunas em tablets */
+    }
+
+    /* Responsive adjustments for how-it-works-grid */
+    .how-it-works-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 2 colunas em tablets */
+    }
+
+    /* Responsive adjustments for depoimentos-grid */
+    .depoimentos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 2 colunas em tablets */
+    }
+
+    /* Responsive adjustments for recursos-grid */
+    .recursos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 2 colunas em tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        display: none; /* Esconde a navegação principal */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 70px; /* Ajuste conforme a altura do seu header */
+        left: 0;
+        background-color: var(--white-bg);
+        box-shadow: var(--shadow-medium);
+        padding: 20px 0;
+    }
+
+    .main-nav.active {
+        display: flex;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-nav a {
+        padding: 10px 20px;
+        display: block;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block; /* Mostra o botão de menu */
+    }
+
+    .header-actions {
+        display: none; /* Esconde o seletor de idioma no mobile, ou reposicione */
+    }
+
+    #hero.hero-section {
+        height: 60vh; /* Ajuste a altura para telas menores */
+    }
+
+    .video-overlay-title {
+        font-size: 1.8em;
+        top: 25%;
+    }
+
+    .video-overlay-subtitle-text {
+        top: 40%;
+        font-size: 1em;
+        width: 90%;
+    }
+
+    .overlay-buttons {
+        bottom: 8%;
+    }
+
+    .hero-title {
+        font-size: 2.2em;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1em;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-cta-secondary {
+        margin-left: 0;
+    }
+
+    .section-padding {
+        padding: 60px 0;
+    }
+
+    .tagline-bold-uppercase-pink {
+        font-size: 1.3em; /* Ajuste para telas menores */
+    }
+
+    .about-us-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+        text-align: center;
+    }
+
+    .about-us-content {
+        order: 2; /* Coloca o conteúdo abaixo da imagem no mobile */
+    }
+
+    .about-us-content .section-title {
+        text-align: center; /* Centraliza o título no mobile */
+    }
+
+    .about-us-image {
+        order: 1; /* Coloca a imagem acima do texto no mobile */
+        margin-bottom: 30px;
+    }
+
+    .footer .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-logo, .footer-links, .social-links {
+        text-align: center;
+        min-width: unset;
+        width: 100%;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .video-highlights-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+    }
+
+    /* Responsive adjustments for desafios-grid */
+    .desafios-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+    }
+
+    /* Responsive adjustments for diferenciais-grid */
+    .diferenciais-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+    }
+
+    /* Responsive adjustments for how-it-works-grid */
+    .how-it-works-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+    }
+
+    /* Responsive adjustments for depoimentos-grid */
+    .depoimentos-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+    }
+
+    /* Responsive adjustments for recursos-grid */
+    .recursos-grid {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.2em; }
+    h4 { font-size: 1.1em; } /* Ajuste para h4 em telas muito pequenas */
+
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero-title {
+        font-size: 1.8em;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1em;
+    }
+
+    .how-it-works-grid, .desafios-grid, .diferenciais-grid, .depoimentos-grid, .recursos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
