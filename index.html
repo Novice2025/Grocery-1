@@ -131,8 +131,6 @@ p {
     font-weight: bold;
     border: 2px solid var(--secondary-color);
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-    margin-left: 15px;
-    cursor: pointer;
     font-size: 1em;
 }
 
@@ -145,8 +143,8 @@ p {
 /* Header */
 #main-header {
     background-color: var(--white-bg);
-    box-shadow: var(--shadow-light);
     padding: 15px 0;
+    box-shadow: var(--shadow-light);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -178,7 +176,7 @@ p {
 
 .main-nav a {
     color: var(--primary-color);
-    font-weight: 600;
+    font-weight: bold;
     transition: color 0.3s ease;
 }
 
@@ -189,16 +187,16 @@ p {
 .header-actions {
     display: flex;
     align-items: center;
+    gap: 20px;
 }
 
 .language-selector select {
-    border: 1px solid var(--primary-color);
     padding: 8px 12px;
     border-radius: 5px;
+    border: 1px solid var(--dark-text);
     background-color: var(--white-bg);
-    color: var(--primary-color);
+    color: var(--dark-text);
     cursor: pointer;
-    font-size: 0.9em;
 }
 
 .menu-toggle {
@@ -214,7 +212,7 @@ p {
 #hero.hero-section {
     position: relative;
     width: 100%;
-    height: 80vh; /* Altura da seção Hero */
+    height: 80vh; /* Altura da seção hero */
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -230,60 +228,57 @@ p {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 1;
 }
 
 .hero-video {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Garante que o vídeo cubra toda a área */
-    filter: brightness(0.6); /* Escurece o vídeo para o texto se destacar */
+    filter: brightness(0.6); /* Escurece o vídeo para melhor contraste do texto */
 }
 
-.video-overlay-title, .video-overlay-subtitle-text, .overlay-buttons {
-    position: relative;
-    z-index: 2;
-    color: var(--white-bg);
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-.hero-title {
-    font-size: 3.5em;
-    margin-bottom: 20px;
-    line-height: 1.2;
-    max-width: 900px;
+.video-overlay-title,
+.video-overlay-subtitle-text,
+.overlay-buttons {
     position: absolute;
-    top: 30%; /* Ajuste a posição vertical do título */
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.hero-subtitle {
-    font-size: 1.3em;
-    margin-bottom: 30px;
-    max-width: 700px;
-    position: absolute;
-    top: 50%; /* Ajuste a posição vertical do subtítulo */
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 20px;
-    position: absolute;
-    bottom: 15%; /* Ajuste a posição vertical dos botões */
+    z-index: 2; /* Acima do vídeo */
+    width: 80%;
     left: 50%;
     transform: translateX(-50%);
 }
 
-/* Estilos para as cores específicas no título */
+.video-overlay-title {
+    top: 30%; /* Ajuste a posição vertical do título */
+    font-size: 3.5em;
+    font-weight: bold;
+    line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.video-overlay-subtitle-text {
+    top: 50%; /* Ajuste a posição vertical do subtítulo */
+    font-size: 1.4em;
+    margin-top: 20px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+}
+
+.overlay-buttons {
+    bottom: 15%; /* Ajuste a posição vertical dos botões */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
 .global-colors {
-    color: var(--accent-color); /* Dourado */
+    background: linear-gradient(to right, #E74C3C, #FFD700); /* Vermelho para Dourado */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback para navegadores que não suportam */
 }
 
 .brazilian-flag-text {
-    background: linear-gradient(to right, #009739, #FEDD00, #002776); /* Verde, Amarelo, Azul */
+    background: linear-gradient(to right, #009739, #002776); /* Verde para Azul */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -291,10 +286,6 @@ p {
 }
 
 /* Section: Micro-tagline */
-#micro-tagline-section {
-    padding: 40px 0; /* Padding reduzido para esta seção */
-}
-
 #micro-tagline-section .section-title {
     font-size: 2em;
     margin-bottom: 10px;
@@ -302,9 +293,9 @@ p {
 }
 
 #micro-tagline-section .section-subtitle {
-    font-size: 1.1em;
+    font-size: 1.2em;
+    color: var(--light-text);
     margin-bottom: 20px;
-    color: rgba(255, 255, 255, 0.8);
 }
 
 .neon-brown-text {
@@ -316,19 +307,19 @@ p {
     font-size: 1.5em;
     font-weight: bold;
     text-transform: uppercase;
-    color: var(--secondary-color); /* Vermelho vibrante */
+    color: #E74C3C; /* Vermelho vibrante */
     letter-spacing: 2px;
     margin-top: 20px;
 }
 
 /* Section: Destaques em Vídeo */
-#section-videos-highlights {
-    padding: 60px 0; /* Padding ajustado para esta seção */
+#section-videos-highlights .section-subtitle {
+    margin-bottom: 10px; /* Reduzir o espaçamento entre os subtítulos */
 }
 
 .video-highlights-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Ajustado para vídeos menores */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Vídeos menores */
     gap: 30px;
     margin-top: 40px;
 }
@@ -344,29 +335,23 @@ p {
     align-items: center;
 }
 
-.video-highlight-item .highlight-phrase {
-    font-size: 1.2em;
+.highlight-phrase {
+    font-size: 0.9em; /* Tamanho da fonte ajustado para a frase */
     font-weight: bold;
-    margin-bottom: 15px;
-    color: var(--primary-color);
+    margin-bottom: 5px; /* Espaçamento menor */
+    line-height: 1.2;
 }
 
 .video-highlight {
     width: 100%;
-    height: auto; /* Mantém a proporção do vídeo */
+    height: auto;
     border-radius: var(--border-radius);
     display: block;
     margin-bottom: 10px;
 }
 
-.sources {
-    font-size: 0.8em; /* Tamanho da fonte da fonte */
-    color: var(--dark-text); /* Cor da fonte da fonte */
-    margin-top: 5px;
-    display: block;
-}
+/* A classe .sources foi removida */
 
-/* Estilo para o texto com gradiente */
 .career-propel-text {
     background: linear-gradient(to right, #E74C3C, #FFD700); /* Vermelho para Dourado */
     -webkit-background-clip: text;
@@ -392,24 +377,22 @@ p {
     margin-bottom: 20px;
 }
 
-#section-text-image-right .text-content p {
-    margin-bottom: 15px;
-}
-
 #section-text-image-right .text-content ul {
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 #section-text-image-right .text-content ul li {
     margin-bottom: 10px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
+    font-size: 1.1em;
 }
 
 #section-text-image-right .text-content ul li i {
     color: var(--secondary-color);
-    margin-top: 5px;
+    font-size: 1.2em;
 }
 
 #section-text-image-right .image-content img {
@@ -420,19 +403,9 @@ p {
 }
 
 /* Section: Nossos Desafios */
-#nossos-desafios {
-    background-color: var(--primary-color);
-    color: var(--light-text);
-}
-
-#nossos-desafios .section-title,
-#nossos-desafios .section-subtitle {
-    color: var(--white-bg);
-}
-
 .desafios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     margin-top: 40px;
 }
@@ -443,6 +416,12 @@ p {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.desafio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-dark);
 }
 
 .desafio-item i {
@@ -462,23 +441,25 @@ p {
 }
 
 /* Section: Diferenciais */
-#diferenciais {
-    background-color: var(--white-bg);
-}
-
 .diferenciais-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     margin-top: 40px;
 }
 
 .diferencial-item {
-    background-color: var(--light-bg);
+    background-color: var(--white-bg);
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.diferencial-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
 }
 
 .diferencial-item i {
@@ -499,23 +480,33 @@ p {
 
 /* Section: Como Funciona */
 #como-funciona {
-    background-color: var(--light-bg);
+    background-color: var(--primary-color);
+    color: var(--light-text);
+}
+
+#como-funciona .section-title,
+#como-funciona .section-subtitle {
+    color: var(--white-bg);
 }
 
 .how-it-works-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    gap: 50px 30px; /* Mais espaço vertical entre os itens */
+    margin-top: 60px;
 }
 
 .how-it-works-item {
     background-color: var(--white-bg);
     padding: 30px;
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
+    box-shadow: var(--shadow-medium);
     text-align: center;
-    position: relative;
+    position: relative; /* Para posicionar o número */
+    min-height: 180px; /* Altura mínima para o conteúdo */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Alinha o conteúdo na parte inferior */
     padding-top: 60px; /* Espaço para o número */
 }
 
@@ -1103,6 +1094,8 @@ p {
     <section id="section-videos-highlights" class="section-padding bg-light">
         <div class="container">
             <h2 class="section-title">Programa Exclusivo para Profissionais Brasileiros</h2>
+            <p class="section-subtitle">Agora você fala onde o mundo decide.</p>
+            <p class="section-subtitle">Sua voz, sua liderança, seu impacto global.</p>
             <p class="section-subtitle">Desenvolva a comunicação executiva em inglês para reuniões, apresentações e liderança global.</p>
             <div class="video-highlights-grid">
                 <div class="video-highlight-item">
@@ -1112,7 +1105,7 @@ p {
                         <source src="videos/meet.mp4" type="video/mp4">
                         Seu navegador não suporta o vídeo.
                     </video>
-                    <span class="sources">Fonte: Estudo de Mercado Global 2025</span>
+                    <!-- <span class="sources">Fonte: Estudo de Mercado Global 2025</span> REMOVIDO -->
                 </div>
                 <div class="video-highlight-item">
                     <p class="highlight-phrase career-propel-text">Comunicação estratégica para líderes.</p>
@@ -1120,7 +1113,7 @@ p {
                         <source src="videos/meet%202.mp4" type="video/mp4">
                         Seu navegador não suporta o vídeo.
                     </video>
-                    <span class="sources">Fonte: Harvard Business Review</span>
+                    <!-- <span class="sources">Fonte: Harvard Business Review</span> REMOVIDO -->
                 </div>
             </div>
         </div>
@@ -1194,47 +1187,42 @@ p {
                 <div class="diferencial-item">
                     <i class="fas fa-chart-line"></i>
                     <h3>Foco em Resultados</h3>
-                    <p>Metodologia prática e orientada para resultados, com simulações de cenários reais do mundo corporativo.</p>
+                    <p>Metodologia prática e orientada para o impacto real na sua carreira e nos seus objetivos profissionais.</p>
                 </div>
                 <div class="diferencial-item">
                     <i class="fas fa-chalkboard-teacher"></i>
-                    <h3>Mentoria Experiente</h3>
-                    <p>Aprenda com Daby, uma profissional com vasta experiência em multinacionais e vivência internacional.</p>
+                    <h3>Experiência Executiva</h3>
+                    <p>Daby, sua coach, possui vivência em multinacionais e entende as demandas do mundo corporativo global.</p>
                 </div>
                 <div class="diferencial-item">
-                    <i class="fas fa-headset"></i>
-                    <h3>Suporte Contínuo</h3>
-                    <p>Acompanhamento e suporte para garantir que você atinja seus objetivos e mantenha o progresso.</p>
+                    <i class="fas fa-brain"></i>
+                    <h3>Desenvolvimento Integral</h3>
+                    <p>Além do idioma, trabalhamos confiança, inteligência cultural e estratégias de comunicação para liderança.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Section: Como Funciona -->
-    <section id="como-funciona" class="section-padding bg-light">
+    <section id="como-funciona" class="section-padding bg-dark text-white">
         <div class="container">
-            <h2 class="section-title">Como Funciona</h2>
-            <p class="section-subtitle">Nosso processo simples e eficaz para o seu sucesso.</p>
+            <h2 class="section-title text-white">Como Funciona</h2>
+            <p class="section-subtitle text-white">Nosso processo em 3 passos para o seu sucesso.</p>
             <div class="how-it-works-grid">
                 <div class="how-it-works-item">
-                    <div class="step-number">1</div>
-                    <h3>Avaliação Inicial</h3>
-                    <p>Entendemos seu nível atual, objetivos e desafios específicos no inglês executivo.</p>
+                    <span class="step-number">1</span>
+                    <h3>Avaliação e Planejamento</h3>
+                    <p>Começamos com uma avaliação detalhada para entender suas necessidades e criar um plano de coaching personalizado.</p>
                 </div>
                 <div class="how-it-works-item">
-                    <div class="step-number">2</div>
-                    <h3>Plano Personalizado</h3>
-                    <p>Criamos um programa de coaching sob medida, focado nas suas necessidades e metas de carreira.</p>
+                    <span class="step-number">2</span>
+                    <h3>Sessões de Coaching</h3>
+                    <p>Aulas individuais focadas em cenários reais do seu dia a dia profissional, com feedback constante e prática intensiva.</p>
                 </div>
                 <div class="how-it-works-item">
-                    <div class="step-number">3</div>
-                    <h3>Sessões Práticas</h3>
-                    <p>Aulas dinâmicas com simulações de reuniões, apresentações e negociações reais.</p>
-                </div>
-                <div class="how-it-works-item">
-                    <div class="step-number">4</div>
-                    <h3>Feedback e Acompanhamento</h3>
-                    <p>Receba feedback detalhado e acompanhamento contínuo para garantir seu progresso e confiança.</p>
+                    <span class="step-number">3</span>
+                    <h3>Acompanhamento e Resultados</h3>
+                    <p>Monitoramos seu progresso e ajustamos o plano para garantir que você atinja seus objetivos e veja resultados concretos.</p>
                 </div>
             </div>
         </div>
@@ -1248,21 +1236,21 @@ p {
             <div class="depoimentos-grid">
                 <div class="depoimento-item">
                     <i class="fas fa-quote-left quote-icon"></i>
-                    <p>"O coaching da Daby transformou minha forma de me comunicar em inglês. Ganhei confiança para liderar reuniões e fazer apresentações impactantes."</p>
-                    <div class="author">Carlos M.</div>
-                    <div class="role">Diretor de Marketing, Multinacional</div>
+                    <p>"O coaching da Daby transformou minha confiança em reuniões internacionais. Agora me sinto realmente preparado para qualquer desafio."</p>
+                    <p class="author">João Silva</p>
+                    <p class="role">Diretor de Marketing Global</p>
                 </div>
                 <div class="depoimento-item">
                     <i class="fas fa-quote-left quote-icon"></i>
-                    <p>"Eu precisava de algo além do inglês básico. A Daby me ajudou a desenvolver a linguagem de negócios e a negociar com mais eficácia."</p>
-                    <div class="author">Ana P.</div>
-                    <div class="role">Gerente de Projetos, Tech Startup</div>
+                    <p>"Consegui fechar um grande negócio graças às técnicas de negociação que aprendi. Um investimento que valeu cada centavo!"</p>
+                    <p class="author">Mariana Santos</p>
+                    <p class="role">Gerente de Vendas Internacionais</p>
                 </div>
                 <div class="depoimento-item">
                     <i class="fas fa-quote-left quote-icon"></i>
-                    <p>"A personalização do programa foi incrível. Cada aula era focada nos meus desafios reais, e o progresso foi visível em poucas semanas."</p>
-                    <div class="author">Fernando S.</div>
-                    <div class="role">CEO, Empresa de Consultoria</div>
+                    <p>"Minhas apresentações nunca foram tão impactantes. A Daby me ajudou a estruturar minhas ideias e a transmiti-las com clareza."</p>
+                    <p class="author">Pedro Almeida</p>
+                    <p class="role">Head de Inovação</p>
                 </div>
             </div>
         </div>
@@ -1272,33 +1260,24 @@ p {
     <section id="comunidade-recursos" class="section-padding bg-white">
         <div class="container">
             <h2 class="section-title">Comunidade e Recursos Exclusivos</h2>
-            <p class="section-subtitle">Conecte-se e continue aprendendo com a Next Station English.</p>
+            <p class="section-subtitle">Apoio contínuo para o seu desenvolvimento.</p>
             <div class="recursos-grid">
                 <div class="recurso-item">
                     <i class="fas fa-users"></i>
-                    <h3>Comunidade Exclusiva</h3>
-                    <p>Participe de um grupo seleto de profissionais para networking e troca de experiências em inglês.</p>
+                    <h3>Comunidade VIP</h3>
+                    <p>Acesso a uma rede exclusiva de profissionais brasileiros com ambições globais para networking e troca de experiências.</p>
                 </div>
                 <div class="recurso-item">
                     <i class="fas fa-book-open"></i>
-                    <h3>Materiais Complementares</h3>
-                    <p>Acesso a e-books, artigos e exercícios práticos para aprimorar seu inglês executivo.</p>
+                    <h3>Biblioteca de Conteúdo</h3>
+                    <p>Materiais exclusivos, artigos e guias práticos sobre inglês executivo e tendências de mercado global.</p>
                 </div>
                 <div class="recurso-item">
                     <i class="fas fa-calendar-alt"></i>
                     <h3>Workshops e Eventos</h3>
-                    <p>Participe de workshops e eventos online exclusivos para membros, com temas relevantes para o mundo corporativo.</p>
+                    <p>Participe de workshops e webinars com especialistas para aprofundar seus conhecimentos e habilidades.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Section: Call to Action Final -->
-    <section id="contato" class="section-padding bg-dark text-white text-center">
-        <div class="container">
-            <h2 class="section-title text-white">Pronto para o Próximo Nível?</h2>
-            <p class="section-subtitle text-white">Transforme sua comunicação em inglês e impulsione sua carreira globalmente.</p>
-            <a href="mailto:contato@nextstationenglish.com" class="btn-cta">Fale Conosco Agora</a>
         </div>
     </section>
 
@@ -1306,20 +1285,20 @@ p {
     <section id="faq" class="section-padding bg-light">
         <div class="container">
             <h2 class="section-title">Perguntas Frequentes</h2>
-            <p class="section-subtitle">Tire suas dúvidas sobre o Executive English Coaching by Daby.</p>
+            <p class="section-subtitle">Tire suas dúvidas sobre o Executive English Coaching.</p>
             <div class="faq-container">
                 <div class="faq-item">
                     <div class="faq-question">
-                        Qual é a diferença do Executive English Coaching para um curso de inglês tradicional?
+                        Como funciona a avaliação inicial?
                         <i class="icon fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Nosso coaching é focado em resultados práticos para o ambiente corporativo, com metodologia personalizada e simulações de situações reais de trabalho, diferente dos cursos tradicionais que focam em gramática e vocabulário geral.</p>
+                        <p>A avaliação inicial é uma conversa de 30 minutos para entendermos seus objetivos, nível atual de inglês e como nosso coaching pode te ajudar a alcançá-los.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        Como são as aulas? São individuais ou em grupo?
+                        As aulas são individuais ou em grupo?
                         <i class="icon fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
