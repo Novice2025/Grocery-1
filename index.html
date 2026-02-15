@@ -204,19 +204,19 @@ p {
     background: none;
     border: none;
     font-size: 1.8em;
-    color: var(--primary-color);
     cursor: pointer;
+    color: var(--primary-color);
 }
 
 /* Hero Section */
-#hero.hero-section {
+.hero-section {
     position: relative;
     width: 100%;
     height: 80vh; /* Altura da seção hero */
     overflow: hidden;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     text-align: center;
     color: var(--white-bg);
 }
@@ -228,53 +228,41 @@ p {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    z-index: 1;
 }
 
 .hero-video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Garante que o vídeo cubra toda a área */
-    filter: brightness(0.6); /* Escurece o vídeo para melhor contraste do texto */
+    object-fit: cover;
+    filter: brightness(60%); /* Escurece o vídeo para o texto se destacar */
 }
 
-.video-overlay-title,
-.video-overlay-subtitle-text,
-.overlay-buttons {
-    position: absolute;
-    z-index: 2; /* Acima do vídeo */
-    width: 80%;
-    left: 50%;
-    transform: translateX(-50%);
+.hero-title, .hero-subtitle, .hero-buttons {
+    position: relative;
+    z-index: 2;
+    color: var(--white-bg);
 }
 
-.video-overlay-title {
-    top: 30%; /* Ajuste a posição vertical do título */
-    font-size: 3.5em;
-    font-weight: bold;
+.hero-title {
+    font-size: 4em;
+    margin-bottom: 20px;
     line-height: 1.1;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-.video-overlay-subtitle-text {
-    top: 50%; /* Ajuste a posição vertical do subtítulo */
-    font-size: 1.4em;
-    margin-top: 20px;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-}
-
-.overlay-buttons {
-    bottom: 15%; /* Ajuste a posição vertical dos botões */
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    position: absolute; /* Posicionamento absoluto para sobrepor o vídeo */
+    top: 30%; /* Ajuste a posição vertical */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Limita a largura para melhor leitura */
+    max-width: 900px;
 }
 
 .global-colors {
-    background: linear-gradient(to right, #E74C3C, #FFD700); /* Vermelho para Dourado */
+    background: linear-gradient(to right, #FFD700, #E74C3C); /* Dourado para Vermelho */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    color: transparent; /* Fallback para navegadores que não suportam */
+    color: transparent; /* Fallback */
 }
 
 .brazilian-flag-text {
@@ -282,39 +270,58 @@ p {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    color: transparent; /* Fallback para navegadores que não suportam */
+    color: transparent; /* Fallback */
+}
+
+.hero-subtitle {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    position: absolute; /* Posicionamento absoluto para sobrepor o vídeo */
+    top: 50%; /* Ajuste a posição vertical */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Limita a largura para melhor leitura */
+    max-width: 700px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    position: absolute; /* Posicionamento absoluto para sobrepor o vídeo */
+    bottom: 15%; /* Ajuste a posição vertical */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* Section: Micro-tagline */
-#micro-tagline-section .section-title {
-    font-size: 2em;
-    margin-bottom: 10px;
-    color: var(--white-bg);
-}
-
-#micro-tagline-section .section-subtitle {
-    font-size: 1.2em;
-    color: var(--light-text);
-    margin-bottom: 20px;
+#micro-tagline-section {
+    padding: 40px 0; /* Um pouco menos de padding para ser "micro" */
 }
 
 .neon-brown-text {
-    color: #FFD700; /* Dourado */
-    text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 15px #FFD700;
+    color: #FFD700; /* Dourado para um efeito "neon" sutil */
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
 }
 
 .tagline-bold-uppercase-pink {
-    font-size: 1.5em;
+    font-size: 1.8em;
     font-weight: bold;
     text-transform: uppercase;
-    color: #E74C3C; /* Vermelho vibrante */
-    letter-spacing: 2px;
+    color: var(--secondary-color); /* Vermelho vibrante */
     margin-top: 20px;
+    letter-spacing: 1px;
 }
 
 /* Section: Destaques em Vídeo */
+#section-videos-highlights {
+    background-color: var(--light-bg);
+}
+
 #section-videos-highlights .section-subtitle {
-    margin-bottom: 10px; /* Reduzir o espaçamento entre os subtítulos */
+    margin-bottom: 15px; /* Reduzir margem entre os subtítulos */
+    font-size: 1em; /* Ajustar tamanho da fonte para os novos subtítulos */
+    color: var(--dark-text);
 }
 
 .video-highlights-grid {
@@ -326,31 +333,27 @@ p {
 
 .video-highlight-item {
     background-color: var(--white-bg);
-    padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
+    overflow: hidden;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.highlight-phrase {
-    font-size: 0.9em; /* Tamanho da fonte ajustado para a frase */
-    font-weight: bold;
-    margin-bottom: 5px; /* Espaçamento menor */
-    line-height: 1.2;
+    padding-bottom: 15px; /* Espaçamento abaixo do vídeo */
 }
 
 .video-highlight {
     width: 100%;
-    height: auto;
-    border-radius: var(--border-radius);
+    height: auto; /* Mantém a proporção do vídeo */
     display: block;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
 }
 
-/* A classe .sources foi removida */
+.highlight-phrase {
+    font-size: 0.9em; /* Frases mais concisas */
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px; /* Aproxima a frase do vídeo */
+    padding: 0 10px; /* Pequeno padding para não colar nas bordas */
+}
 
 .career-propel-text {
     background: linear-gradient(to right, #E74C3C, #FFD700); /* Vermelho para Dourado */
@@ -360,39 +363,48 @@ p {
     color: transparent; /* Fallback para navegadores que não suportam */
 }
 
-/* Section: Texto com Imagem (Direita) */
+/* Section: Texto com Imagem (Direita) - Metodologia Exclusiva */
+#section-text-image-right .section-title {
+    color: var(--secondary-color); /* Título em vermelho vibrante */
+    font-size: 2.8em; /* Um pouco maior para destaque */
+    margin-bottom: 25px;
+    text-align: left; /* Alinha o título à esquerda no desktop */
+}
+
 #section-text-image-right .content-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    grid-template-columns: 1.2fr 0.8fr; /* Texto um pouco maior que a imagem */
+    gap: 60px;
     align-items: center;
 }
 
-#section-text-image-right .text-content {
-    text-align: left;
-}
-
-#section-text-image-right .text-content .section-title {
-    text-align: left;
+#section-text-image-right .text-content p {
+    font-size: 1.05em; /* Levemente maior para melhor leitura */
+    line-height: 1.7;
+    color: #555; /* Cor de texto um pouco mais suave */
     margin-bottom: 20px;
 }
 
 #section-text-image-right .text-content ul {
-    margin-top: 20px;
+    margin-top: 25px;
     margin-bottom: 30px;
+    padding-left: 0; /* Remove padding padrão da lista */
 }
 
 #section-text-image-right .text-content ul li {
-    margin-bottom: 10px;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.1em;
+    align-items: flex-start; /* Alinha o ícone com o início do texto */
+    margin-bottom: 15px;
+    font-size: 1.05em;
+    color: var(--dark-text);
 }
 
 #section-text-image-right .text-content ul li i {
-    color: var(--secondary-color);
+    color: var(--secondary-color); /* Ícones em vermelho */
+    margin-right: 12px;
     font-size: 1.2em;
+    flex-shrink: 0; /* Impede que o ícone encolha */
+    margin-top: 3px; /* Ajuste fino para alinhamento vertical */
 }
 
 #section-text-image-right .image-content img {
@@ -400,9 +412,39 @@ p {
     height: auto;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
+    display: block; /* Remove espaço extra abaixo da imagem */
+}
+
+.framework-text {
+    font-size: 0.95em;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-align: center;
+    margin-top: 15px;
+    line-height: 1.4;
+}
+
+/* Estilo para o novo título do Framework na lista */
+.framework-title {
+    font-size: 1.2em; /* Tamanho para o título do framework */
+    color: var(--primary-color);
+    margin-top: 25px;
+    margin-bottom: 20px;
+    display: block; /* Para garantir que o underline funcione bem */
+    text-align: left; /* Alinha à esquerda */
 }
 
 /* Section: Nossos Desafios */
+#nossos-desafios {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+}
+
+#nossos-desafios .section-title,
+#nossos-desafios .section-subtitle {
+    color: var(--white-bg);
+}
+
 .desafios-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -441,6 +483,10 @@ p {
 }
 
 /* Section: Diferenciais */
+#diferenciais {
+    background-color: var(--white-bg);
+}
+
 .diferenciais-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -449,7 +495,7 @@ p {
 }
 
 .diferencial-item {
-    background-color: var(--white-bg);
+    background-color: var(--light-bg);
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
@@ -480,39 +526,35 @@ p {
 
 /* Section: Como Funciona */
 #como-funciona {
-    background-color: var(--primary-color);
-    color: var(--light-text);
-}
-
-#como-funciona .section-title,
-#como-funciona .section-subtitle {
-    color: var(--white-bg);
+    background-color: var(--light-bg);
 }
 
 .how-it-works-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 50px 30px; /* Mais espaço vertical entre os itens */
-    margin-top: 60px;
+    gap: 30px;
+    margin-top: 40px;
 }
 
 .how-it-works-item {
     background-color: var(--white-bg);
     padding: 30px;
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--shadow-light);
     text-align: center;
-    position: relative; /* Para posicionar o número */
-    min-height: 180px; /* Altura mínima para o conteúdo */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* Alinha o conteúdo na parte inferior */
+    position: relative;
     padding-top: 60px; /* Espaço para o número */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.how-it-works-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
 }
 
 .how-it-works-item .step-number {
     position: absolute;
-    top: -20px; /* Posição acima do item */
+    top: -25px; /* Metade da altura do círculo para centralizar */
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--secondary-color);
@@ -928,7 +970,7 @@ p {
         order: 2; /* Coloca o conteúdo abaixo da imagem no mobile */
     }
 
-    .about-us-content .section-title {
+    #section-text-image-right .text-content .section-title {
         text-align: center; /* Centraliza o título no mobile */
     }
 
@@ -1125,18 +1167,25 @@ p {
         <div class="container">
             <div class="content-grid">
                 <div class="text-content">
-                    <h2 class="section-title">A Daby te prepara para o mundo.</h2>
-                    <p>Com mais de 15 anos de experiência em multinacionais e vivência internacional, Daby entende os desafios de comunicar-se em inglês no ambiente executivo. Sua metodologia é desenhada para ir além da fluência, focando em impacto, persuasão e liderança.</p>
-                    <p>Nosso coaching é 100% personalizado, com foco nas suas necessidades e objetivos de carreira. Você aprenderá a:</p>
+                    <h2 class="section-title">Metodologia Exclusiva</h2>
+                    <p>Desenvolvi uma metodologia proprietária que vai além da fluência, focada em influência, persuasão e presença executiva global. Era tudo que o profissional precisava!</p>
+                    <p>O Executive English Coaching é 100% personalizado, alinhado aos seus objetivos estratégicos de carreira e liderança na empresa e no mercado.</p>
+                    <!-- NOVO TÍTULO E LISTA DE BULLET POINTS AQUI -->
+                    <p><u><b><i>Framework Executivo de Comunicação Global</i></b></u></p>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i> Conduzir reuniões e apresentações com confiança.</li>
-                        <li><i class="fas fa-check-circle"></i> Negociar e persuadir em contextos internacionais.</li>
-                        <li><i class="fas fa-check-circle"></i> Desenvolver sua liderança e marca pessoal globalmente.</li>
+                        <li><i class="fas fa-check-circle"></i> Conduzir reuniões e apresentações com autoridade executiva e clareza estratégica.</li>
+                        <li><i class="fas fa-check-circle"></i> Negociar, persuadir e influenciar decisões em ambientes corporativos internacionais.</li>
+                        <li><i class="fas fa-check-circle"></i> Desenvolver presença executiva global e uma marca pessoal de liderança.</li>
+                        <li><i class="fas fa-check-circle"></i> Pensar estrategicamente em inglês (sem traduzir mentalmente).</li>
+                        <li><i class="fas fa-check-circle"></i> Redigir e-mails e mensagens com estrutura internacional e tom profissional de alto nível.</li>
+                        <li><i class="fas fa-check-circle"></i> Comunicar-se com precisão onde decisões, contratos e estratégias são definidos.</li>
                     </ul>
+                    <!-- FIM DO NOVO TÍTULO E LISTA -->
                     <a href="#contato" class="btn-cta">Agende sua Avaliação Gratuita</a>
                 </div>
                 <div class="image-content">
-                    <img src="images/daby-prepara.jpg" alt="Daby, coach de inglês executivo, em um ambiente profissional.">
+                    <img src="images/daby-prepara.jpg" alt="Daby — Executive English Coach & Global Communication Consultant">
+                    <p class="framework-text">The Daby Executive Communication Framework™</p>
                 </div>
             </div>
         </div>
